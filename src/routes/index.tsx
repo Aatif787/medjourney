@@ -326,8 +326,8 @@ function Home() {
       {/* Patient Intake Assessment Section */}
       <section className="relative bg-surface py-20 overflow-hidden" id="enquiry">
         <div className="aurora-orb -top-20 -right-20 h-80 w-80 bg-primary/15" aria-hidden />
-        <div className="container-page relative z-10 grid gap-10 lg:grid-cols-[1fr_1.4fr] lg:items-start">
-          <div data-reveal="slide-left">
+        <div className="container-page relative z-10 grid gap-10 lg:grid-cols-[1fr_1.4fr] lg:items-start [perspective:1800px]">
+          <div data-reveal="door-left">
             <span className="eyebrow-pill">
               <span className="pulse-dot" /> Adaptive Triage
             </span>
@@ -353,7 +353,7 @@ function Home() {
               ))}
             </ul>
           </div>
-          <div data-reveal="slide-right">
+          <div data-reveal="door-right">
             <PatientIntakeForm treatments={treatments.map((t) => ({ id: t.id, name: t.name }))} />
           </div>
         </div>

@@ -223,28 +223,66 @@
   filter: blur(0px);
 }
 
-/* Variant: 3D Spatial Lateral Left */
-[data-reveal="slide-left"] {
+/* Variant: 3D Double Door Closing — Left Door */
+[data-reveal="slide-left"],
+[data-reveal="door-left"],
+[data-reveal="door-close-left"] {
   opacity: 0;
-  transform: perspective(1200px) rotateY(-14deg) translate3d(-60px, 0, -30px) scale(0.94);
-  filter: blur(8px);
+  transform-origin: left center;
+  transform: perspective(1600px) rotateY(-50deg) translate3d(-140px, 0, -100px) scale(0.9);
+  filter: blur(10px);
+  transition:
+    opacity 1050ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 1200ms cubic-bezier(0.16, 1, 0.3, 1),
+    filter 950ms cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, opacity, filter;
 }
-[data-reveal="slide-left"].in-view {
+
+[data-reveal="slide-left"].in-view,
+[data-reveal="door-left"].in-view,
+[data-reveal="door-close-left"].in-view {
   opacity: 1;
-  transform: perspective(1200px) rotateY(0deg) translate3d(0, 0, 0) scale(1);
+  transform: perspective(1600px) rotateY(0deg) translate3d(0, 0, 0) scale(1);
   filter: blur(0px);
 }
 
-/* Variant: 3D Spatial Lateral Right */
-[data-reveal="slide-right"] {
+/* Variant: 3D Double Door Closing — Right Door */
+[data-reveal="slide-right"],
+[data-reveal="door-right"],
+[data-reveal="door-close-right"] {
   opacity: 0;
-  transform: perspective(1200px) rotateY(14deg) translate3d(60px, 0, -30px) scale(0.94);
-  filter: blur(8px);
+  transform-origin: right center;
+  transform: perspective(1600px) rotateY(50deg) translate3d(140px, 0, -100px) scale(0.9);
+  filter: blur(10px);
+  transition:
+    opacity 1050ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 1200ms cubic-bezier(0.16, 1, 0.3, 1),
+    filter 950ms cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, opacity, filter;
 }
-[data-reveal="slide-right"].in-view {
+
+[data-reveal="slide-right"].in-view,
+[data-reveal="door-right"].in-view,
+[data-reveal="door-close-right"].in-view {
   opacity: 1;
-  transform: perspective(1200px) rotateY(0deg) translate3d(0, 0, 0) scale(1);
+  transform: perspective(1600px) rotateY(0deg) translate3d(0, 0, 0) scale(1);
   filter: blur(0px);
+}
+
+/* Responsive adjustment for tablets/mobile */
+@media (max-width: 1023px) {
+  [data-reveal="slide-left"],
+  [data-reveal="door-left"],
+  [data-reveal="door-close-left"] {
+    transform-origin: center center;
+    transform: perspective(1000px) rotateY(-22deg) translate3d(-40px, 0, 0) scale(0.95);
+  }
+  [data-reveal="slide-right"],
+  [data-reveal="door-right"],
+  [data-reveal="door-close-right"] {
+    transform-origin: center center;
+    transform: perspective(1000px) rotateY(22deg) translate3d(40px, 0, 0) scale(0.95);
+  }
 }
 
 /* Hyper Cascading 3D Grid Stagger */
