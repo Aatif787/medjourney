@@ -130,9 +130,6 @@
 @utility shadow-soft {
   box-shadow: var(--shadow-soft);
 }
-@utility bg-hero-overlay {
-  background-image: var(--gradient-hero);
-}
 @utility container-page {
   width: 100%;
   max-width: 76rem;
@@ -173,20 +170,6 @@
 }
 #main .group:hover img {
   transform: none;
-}
-.home-hero {
-  min-height: 31rem;
-}
-.home-hero-image {
-  object-position: 70% center;
-}
-@media (max-width: 767px) {
-  .home-hero {
-    min-height: 0;
-  }
-  .home-hero-image {
-    object-position: 60% center;
-  }
 }
 @media (prefers-reduced-motion: reduce) {
   html {
