@@ -223,65 +223,83 @@
   filter: blur(0px);
 }
 
-/* Variant: 3D Double Door Closing — Left Door */
+/* ========================================================
+ * 3D Grand Double Door Closing From Out of the Screen
+ * ======================================================== */
+.door-container,
+[data-reveal="door-container"] {
+  perspective: 2000px;
+}
+
+/* Initial state: Left Door is completely off the screen to the left */
+.door-left,
 [data-reveal="slide-left"],
 [data-reveal="door-left"],
 [data-reveal="door-close-left"] {
   opacity: 0;
   transform-origin: left center;
-  transform: perspective(1600px) rotateY(-50deg) translate3d(-140px, 0, -100px) scale(0.9);
-  filter: blur(10px);
+  transform: perspective(2000px) rotateY(-55deg) translate3d(-100vw, 0, -120px) scale(0.85);
+  filter: blur(12px);
   transition:
-    opacity 1050ms cubic-bezier(0.16, 1, 0.3, 1),
-    transform 1200ms cubic-bezier(0.16, 1, 0.3, 1),
-    filter 950ms cubic-bezier(0.16, 1, 0.3, 1);
+    opacity 1400ms cubic-bezier(0.12, 0.98, 0.24, 1),
+    transform 1800ms cubic-bezier(0.12, 0.98, 0.24, 1),
+    filter 1200ms cubic-bezier(0.12, 0.98, 0.24, 1);
   will-change: transform, opacity, filter;
 }
 
+/* In-view state: Left Door glides in from off-screen and closes shut */
+.door-container.in-view .door-left,
+[data-reveal="door-container"].in-view .door-left,
 [data-reveal="slide-left"].in-view,
 [data-reveal="door-left"].in-view,
 [data-reveal="door-close-left"].in-view {
   opacity: 1;
-  transform: perspective(1600px) rotateY(0deg) translate3d(0, 0, 0) scale(1);
+  transform: perspective(2000px) rotateY(0deg) translate3d(0, 0, 0) scale(1);
   filter: blur(0px);
 }
 
-/* Variant: 3D Double Door Closing — Right Door */
+/* Initial state: Right Door is completely off the screen to the right */
+.door-right,
 [data-reveal="slide-right"],
 [data-reveal="door-right"],
 [data-reveal="door-close-right"] {
   opacity: 0;
   transform-origin: right center;
-  transform: perspective(1600px) rotateY(50deg) translate3d(140px, 0, -100px) scale(0.9);
-  filter: blur(10px);
+  transform: perspective(2000px) rotateY(55deg) translate3d(100vw, 0, -120px) scale(0.85);
+  filter: blur(12px);
   transition:
-    opacity 1050ms cubic-bezier(0.16, 1, 0.3, 1),
-    transform 1200ms cubic-bezier(0.16, 1, 0.3, 1),
-    filter 950ms cubic-bezier(0.16, 1, 0.3, 1);
+    opacity 1400ms cubic-bezier(0.12, 0.98, 0.24, 1),
+    transform 1800ms cubic-bezier(0.12, 0.98, 0.24, 1),
+    filter 1200ms cubic-bezier(0.12, 0.98, 0.24, 1);
   will-change: transform, opacity, filter;
 }
 
+/* In-view state: Right Door glides in from off-screen and closes shut */
+.door-container.in-view .door-right,
+[data-reveal="door-container"].in-view .door-right,
 [data-reveal="slide-right"].in-view,
 [data-reveal="door-right"].in-view,
 [data-reveal="door-close-right"].in-view {
   opacity: 1;
-  transform: perspective(1600px) rotateY(0deg) translate3d(0, 0, 0) scale(1);
+  transform: perspective(2000px) rotateY(0deg) translate3d(0, 0, 0) scale(1);
   filter: blur(0px);
 }
 
 /* Responsive adjustment for tablets/mobile */
 @media (max-width: 1023px) {
+  .door-left,
   [data-reveal="slide-left"],
   [data-reveal="door-left"],
   [data-reveal="door-close-left"] {
     transform-origin: center center;
-    transform: perspective(1000px) rotateY(-22deg) translate3d(-40px, 0, 0) scale(0.95);
+    transform: perspective(1200px) rotateY(-25deg) translate3d(-100vw, 0, 0) scale(0.9);
   }
+  .door-right,
   [data-reveal="slide-right"],
   [data-reveal="door-right"],
   [data-reveal="door-close-right"] {
     transform-origin: center center;
-    transform: perspective(1000px) rotateY(22deg) translate3d(40px, 0, 0) scale(0.95);
+    transform: perspective(1200px) rotateY(25deg) translate3d(100vw, 0, 0) scale(0.9);
   }
 }
 
