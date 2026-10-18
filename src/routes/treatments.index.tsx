@@ -79,7 +79,7 @@ function TreatmentsPage() {
         <h2 className="mt-12 text-2xl font-semibold">
           {q ? `Results for “${q}”` : "All treatments"}
         </h2>
-        <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3" data-stagger>
           {treatments.length ? (
             treatments.map((t: any) => <TreatmentCard key={t.id} t={t} />)
           ) : (

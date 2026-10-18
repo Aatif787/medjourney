@@ -110,7 +110,7 @@ function HospitalsPage() {
         <p className="mt-6 text-sm text-muted-foreground" aria-live="polite">
           {data.total} hospital{data.total === 1 ? "" : "s"}
         </p>
-        <div className="mt-4 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-4 grid gap-6 sm:grid-cols-2 lg:grid-cols-3" data-stagger>
           {data.items.length ? (
             data.items.map((h) => <HospitalCard key={h.id} h={h} />)
           ) : (

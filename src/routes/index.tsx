@@ -75,7 +75,7 @@ function Home() {
           fetchPriority="high"
         />
         <div className="container-page relative z-10 w-full">
-          <div className="home-hero-panel">
+          <div className="home-hero-panel" data-reveal="fade-up">
             <span className="home-hero-eyebrow">Medical Care & Treatments</span>
             <h1 className="home-hero-title mt-3.5 font-semibold text-ink">
               {settings?.site_name || BRAND.name}
@@ -155,19 +155,19 @@ function Home() {
       </section>
 
       {/* Specialties */}
-      <section className="container-page py-12 md:py-16">
-        <div className="flex flex-wrap items-end justify-between gap-4">
+      <section className="container-page py-16 md:py-20">
+        <div className="flex flex-wrap items-end justify-between gap-4" data-reveal="fade-up">
           <div>
             <p className="eyebrow">Specialties</p>
             <h2 className="mt-2 text-3xl font-medium text-ink md:text-4xl">
               What kind of care are you looking for?
             </h2>
           </div>
-          <Link to="/treatments" className="text-sm font-medium text-primary">
+          <Link to="/treatments" className="text-sm font-medium text-primary hover:underline">
             All treatments →
           </Link>
         </div>
-        <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3" data-stagger>
           {specialties.map((s) => {
             const Icon = ICONS[s.icon ?? ""] ?? Stethoscope;
             return (
@@ -175,19 +175,19 @@ function Home() {
                 key={s.id}
                 to="/treatments/category/$slug"
                 params={{ slug: s.slug }}
-                className="group flex gap-4 border-t py-6 transition hover:border-primary"
+                className="motion-card group flex gap-4 rounded-xl border border-border/50 bg-card p-5 shadow-xs transition-all hover:border-primary/40 hover:bg-card"
               >
-                <span className="grid h-10 w-10 shrink-0 place-items-center text-primary">
+                <span className="grid h-11 w-11 shrink-0 place-items-center rounded-lg bg-primary/10 text-primary transition-transform duration-500 group-hover:scale-110">
                   <Icon className="h-6 w-6" />
                 </span>
-                <span>
-                  <span className="block font-display text-lg font-semibold">{s.name}</span>
+                <div>
+                  <span className="block font-display text-lg font-semibold group-hover:text-primary transition-colors">{s.name}</span>
                   {s.description && (
-                    <span className="mt-1 block text-sm text-muted-foreground">
+                    <span className="mt-1 block text-sm text-muted-foreground line-clamp-2">
                       {s.description}
                     </span>
                   )}
-                </span>
+                </div>
               </Link>
             );
           })}
@@ -197,18 +197,18 @@ function Home() {
       {/* Hospitals */}
       <section className="bg-surface py-20">
         <div className="container-page">
-          <div className="flex flex-wrap items-end justify-between gap-4">
+          <div className="flex flex-wrap items-end justify-between gap-4" data-reveal="fade-up">
             <div>
               <p className="eyebrow">Hospitals</p>
               <h2 className="mt-2 text-3xl font-medium text-ink md:text-4xl">
                 Get to know the hospitals
               </h2>
             </div>
-            <Link to="/hospitals" className="text-sm font-medium text-primary">
+            <Link to="/hospitals" className="text-sm font-medium text-primary hover:underline">
               Hospital directory →
             </Link>
           </div>
-          <div className="mt-10 grid gap-6 md:grid-cols-3">
+          <div className="mt-10 grid gap-6 md:grid-cols-3" data-stagger>
             {hospitals.length ? (
               hospitals.map((h) => <HospitalCard key={h.id} h={h} />)
             ) : (
@@ -220,16 +220,16 @@ function Home() {
 
       {/* Doctors */}
       <section className="container-page py-20">
-        <div className="flex flex-wrap items-end justify-between gap-4">
+        <div className="flex flex-wrap items-end justify-between gap-4" data-reveal="fade-up">
           <div>
             <p className="eyebrow">Specialists</p>
             <h2 className="mt-2 text-3xl font-semibold text-ink md:text-4xl">Doctors</h2>
           </div>
-          <Link to="/doctors" className="text-sm font-medium text-primary">
+          <Link to="/doctors" className="text-sm font-medium text-primary hover:underline">
             All doctors →
           </Link>
         </div>
-        <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4" data-stagger>
           {doctors.length ? (
             doctors.map((d) => <DoctorCard key={d.id} d={d} />)
           ) : (
@@ -239,13 +239,15 @@ function Home() {
       </section>
 
       {/* Support */}
-      <section className="bg-ink py-20 text-ink-foreground">
+      <section className="bg-ink py-20 text-ink-foreground overflow-hidden">
         <div className="container-page">
-          <p className="eyebrow !text-ink-foreground/70">Patient support</p>
-          <h2 className="mt-2 max-w-2xl text-3xl font-medium md:text-4xl">
-            From your first question to your return home
-          </h2>
-          <ol className="mt-12 grid gap-8 md:grid-cols-4">
+          <div data-reveal="fade-up">
+            <p className="eyebrow !text-ink-foreground/70">Patient support</p>
+            <h2 className="mt-2 max-w-2xl text-3xl font-medium md:text-4xl">
+              From your first question to your return home
+            </h2>
+          </div>
+          <ol className="mt-12 grid gap-8 md:grid-cols-4" data-stagger>
             {[
               {
                 icon: FileText,
@@ -268,13 +270,16 @@ function Home() {
                 d: "Discuss travel, language support and follow-up. Check with your treating doctor when it is safe to travel.",
               },
             ].map((s, i) => (
-              <li key={s.t}>
-                <span className="grid h-11 w-11 place-items-center border border-ink-foreground/30">
-                  <s.icon className="h-5 w-5" aria-hidden />
+              <li
+                key={s.t}
+                className="motion-card group rounded-2xl border border-ink-foreground/15 bg-ink-foreground/5 p-6 backdrop-blur-xs transition-all duration-400 hover:border-ink-foreground/30 hover:bg-ink-foreground/10"
+              >
+                <span className="grid h-12 w-12 place-items-center rounded-xl border border-ink-foreground/30 bg-ink-foreground/10 transition-transform duration-500 group-hover:scale-110">
+                  <s.icon className="h-6 w-6" aria-hidden />
                 </span>
-                <p className="mt-4 text-sm opacity-60">Step {i + 1}</p>
+                <p className="mt-4 text-xs font-semibold uppercase tracking-wider text-ink-foreground/60">Step 0{i + 1}</p>
                 <h3 className="mt-1 text-lg font-semibold">{s.t}</h3>
-                <p className="mt-2 text-sm opacity-80">{s.d}</p>
+                <p className="mt-2 text-sm leading-relaxed text-ink-foreground/80">{s.d}</p>
               </li>
             ))}
           </ol>
@@ -283,18 +288,18 @@ function Home() {
 
       {/* Articles */}
       <section className="container-page py-20">
-        <div className="flex flex-wrap items-end justify-between gap-4">
+        <div className="flex flex-wrap items-end justify-between gap-4" data-reveal="fade-up">
           <div>
             <p className="eyebrow">Patient guides</p>
             <h2 className="mt-2 text-3xl font-medium text-ink md:text-4xl">
               A little reading before you decide
             </h2>
           </div>
-          <Link to="/blog" className="text-sm font-medium text-primary">
+          <Link to="/blog" className="text-sm font-medium text-primary hover:underline">
             All guides →
           </Link>
         </div>
-        <div className="mt-10 grid gap-6 md:grid-cols-3">
+        <div className="mt-10 grid gap-6 md:grid-cols-3" data-stagger>
           {posts.length ? (
             posts.map((p) => <PostCard key={p.id} p={p} />)
           ) : (
@@ -304,17 +309,17 @@ function Home() {
       </section>
 
       {/* Patient Intake Assessment Section */}
-      <section className="bg-surface py-20" id="enquiry">
+      <section className="bg-surface py-20 overflow-hidden" id="enquiry">
         <div className="container-page grid gap-10 lg:grid-cols-[1fr_1.4fr] lg:items-start">
-          <div>
+          <div data-reveal="slide-left">
             <p className="eyebrow">Personalized Patient Triage</p>
             <h2 className="mt-2 text-3xl font-medium text-ink md:text-4xl">
               Tell us about your medical needs.
             </h2>
-            <p className="mt-4 max-w-md text-muted-foreground">
+            <p className="mt-4 max-w-md text-muted-foreground leading-relaxed">
               Complete our adaptive clinical assessment in 2 minutes. Our hospital liaisons will
               review your condition and return customized medical estimates from accredited
-              international facilities.
+              facilities.
             </p>
             <ul className="mt-8 space-y-4 text-sm text-muted-foreground">
               {[
@@ -330,7 +335,9 @@ function Home() {
               ))}
             </ul>
           </div>
-          <PatientIntakeForm treatments={treatments.map((t) => ({ id: t.id, name: t.name }))} />
+          <div data-reveal="slide-right">
+            <PatientIntakeForm treatments={treatments.map((t) => ({ id: t.id, name: t.name }))} />
+          </div>
         </div>
       </section>
     </>

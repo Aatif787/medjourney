@@ -94,7 +94,7 @@ function DoctorsPage() {
         <p className="mt-6 text-sm text-muted-foreground" aria-live="polite">
           {data.total} doctor{data.total === 1 ? "" : "s"}
         </p>
-        <div className="mt-4 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-4 grid gap-5 sm:grid-cols-2 lg:grid-cols-3" data-stagger>
           {data.items.length ? (
             data.items.map((d) => <DoctorCard key={d.id} d={d} />)
           ) : (

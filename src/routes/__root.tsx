@@ -18,6 +18,7 @@ import type { SiteSettings } from "@/lib/brand";
 import { SiteHeader, SiteFooter } from "@/components/site/SiteChrome";
 import { Toaster } from "@/components/ui/sonner";
 import { supabase } from "@/integrations/supabase/client";
+import { useScrollMotion } from "@/lib/scroll-motion";
 
 function NotFoundComponent() {
   return (
@@ -145,6 +146,8 @@ function RootComponent() {
   const router = useRouter();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const isApp = pathname.startsWith("/admin") || pathname.startsWith("/auth");
+
+  useScrollMotion(pathname);
 
   useEffect(() => {
     try {

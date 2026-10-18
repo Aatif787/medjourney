@@ -53,9 +53,9 @@ export function HospitalCard({ h }: { h: any }) {
     <Link
       to="/hospitals/$slug"
       params={{ slug: h.slug }}
-      className="group block overflow-hidden border-b bg-transparent transition hover:border-primary"
+      className="motion-card group block overflow-hidden rounded-2xl border border-border/50 bg-card p-3 shadow-xs hover:border-primary/40 transition-all"
     >
-      <div className="aspect-[3/2] overflow-hidden bg-muted">
+      <div className="motion-card-image aspect-[3/2] overflow-hidden rounded-xl bg-muted">
         {image && (
           <img
             src={image.url}
@@ -67,13 +67,13 @@ export function HospitalCard({ h }: { h: any }) {
           />
         )}
       </div>
-      <div className="py-5">
+      <div className="p-3">
         {image?.illustrative && (
-          <p className="mb-2 text-xs text-muted-foreground">
+          <p className="mb-1.5 text-xs text-muted-foreground">
             Illustrative photograph · sample listing
           </p>
         )}
-        <h3 className="text-lg font-semibold leading-snug">{h.name}</h3>
+        <h3 className="text-lg font-semibold leading-snug group-hover:text-primary transition-colors">{h.name}</h3>
         {(h.city || h.country) && (
           <p className="mt-1 flex items-center gap-1 text-sm text-muted-foreground">
             <MapPin className="h-4 w-4" aria-hidden />
@@ -81,7 +81,7 @@ export function HospitalCard({ h }: { h: any }) {
           </p>
         )}
         {h.overview && (
-          <p className="mt-3 line-clamp-2 text-sm text-muted-foreground">{h.overview}</p>
+          <p className="mt-2 line-clamp-2 text-sm text-muted-foreground">{h.overview}</p>
         )}
       </div>
     </Link>
@@ -93,34 +93,36 @@ export function DoctorCard({ d }: { d: any }) {
     <Link
       to="/doctors/$slug"
       params={{ slug: d.slug }}
-      className="group flex flex-col border-y py-6 transition hover:border-primary"
+      className="motion-card group flex flex-col justify-between rounded-2xl border border-border/50 bg-card p-5 shadow-xs hover:border-primary/40 transition-all"
     >
-      <div className="flex items-center gap-4">
-        {d.photo_url ? (
-          <img
-            src={d.photo_url}
-            alt={`Portrait of ${d.name}`}
-            loading="lazy"
-            className="h-16 w-16 rounded-full object-cover"
-          />
-        ) : (
-          <Initials name={d.name} className="h-16 w-16 text-xl" />
-        )}
-        <div className="min-w-0">
-          <h3 className="font-semibold leading-snug">{d.name}</h3>
-          {d.title && <p className="text-sm text-muted-foreground">{d.title}</p>}
+      <div>
+        <div className="flex items-center gap-4">
+          {d.photo_url ? (
+            <img
+              src={d.photo_url}
+              alt={`Portrait of ${d.name}`}
+              loading="lazy"
+              className="h-16 w-16 rounded-full object-cover transition-transform duration-500 group-hover:scale-105"
+            />
+          ) : (
+            <Initials name={d.name} className="h-16 w-16 text-xl transition-transform duration-500 group-hover:scale-105" />
+          )}
+          <div className="min-w-0">
+            <h3 className="font-semibold leading-snug group-hover:text-primary transition-colors">{d.name}</h3>
+            {d.title && <p className="text-sm text-muted-foreground">{d.title}</p>}
+          </div>
+        </div>
+        <div className="mt-4 flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
+          {d.experience_years != null && <span>{d.experience_years}+ yrs experience</span>}
+          {d.languages?.length > 0 && (
+            <span className="flex items-center gap-1">
+              <Languages className="h-3.5 w-3.5" aria-hidden />
+              {d.languages.join(", ")}
+            </span>
+          )}
         </div>
       </div>
-      <div className="mt-4 flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
-        {d.experience_years != null && <span>{d.experience_years}+ yrs experience</span>}
-        {d.languages?.length > 0 && (
-          <span className="flex items-center gap-1">
-            <Languages className="h-3.5 w-3.5" aria-hidden />
-            {d.languages.join(", ")}
-          </span>
-        )}
-      </div>
-      <VerificationBadge status={d.verification_status} className="mt-3 self-start" />
+      <VerificationBadge status={d.verification_status} className="mt-4 self-start" />
     </Link>
   );
 }
@@ -130,16 +132,16 @@ export function TreatmentCard({ t }: { t: any }) {
     <Link
       to="/treatments/$slug"
       params={{ slug: t.slug }}
-      className="group flex flex-col justify-between border-t py-6 transition hover:border-primary"
+      className="motion-card group flex flex-col justify-between rounded-2xl border border-border/50 bg-card p-6 shadow-xs hover:border-primary/40 transition-all"
     >
       <div>
         {t.category?.name && <p className="eyebrow">{t.category.name}</p>}
-        <h3 className="mt-2 text-lg font-semibold leading-snug">{t.name}</h3>
+        <h3 className="mt-2 text-lg font-semibold leading-snug group-hover:text-primary transition-colors">{t.name}</h3>
         {t.summary && (
           <p className="mt-2 line-clamp-3 text-sm text-muted-foreground">{t.summary}</p>
         )}
       </div>
-      <span className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-primary">
+      <span className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-primary group-hover:translate-x-1 transition-transform">
         About this treatment <ArrowRight className="h-4 w-4" aria-hidden />
       </span>
     </Link>
@@ -152,9 +154,9 @@ export function PostCard({ p }: { p: any }) {
     <Link
       to="/blog/$slug"
       params={{ slug: p.slug }}
-      className="group block overflow-hidden border-b"
+      className="motion-card group block overflow-hidden rounded-2xl border border-border/50 bg-card p-3 shadow-xs hover:border-primary/40 transition-all"
     >
-      <div className="aspect-[16/10] overflow-hidden bg-muted">
+      <div className="motion-card-image aspect-[16/10] overflow-hidden rounded-xl bg-muted">
         {image && (
           <img
             src={image.url}
@@ -164,9 +166,9 @@ export function PostCard({ p }: { p: any }) {
           />
         )}
       </div>
-      <div className="py-5">
+      <div className="p-3">
         <p className="eyebrow">{p.category?.name ?? "Guide"}</p>
-        <h3 className="mt-2 text-lg font-semibold leading-snug">{p.title}</h3>
+        <h3 className="mt-1.5 text-lg font-semibold leading-snug group-hover:text-primary transition-colors">{p.title}</h3>
         {p.excerpt && (
           <p className="mt-2 line-clamp-2 text-sm text-muted-foreground">{p.excerpt}</p>
         )}
@@ -206,7 +208,7 @@ export function PageHero({
 }) {
   return (
     <section className="border-b bg-surface">
-      <div className="container-page py-14 md:py-20">
+      <div className="container-page py-14 md:py-20" data-reveal="fade-up">
         {eyebrow && <p className="eyebrow">{eyebrow}</p>}
         <h1 className="mt-3 max-w-3xl text-4xl font-semibold leading-tight text-ink md:text-5xl">
           {title}
