@@ -1,0 +1,251 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * MedJourney design system — calm, trustworthy healthcare palette.
+ * Brand colours live ONLY here; change --primary / --accent to rebrand.
+ */
+
+@theme inline {
+  --font-display: "Lora", Georgia, serif;
+  --font-sans: "Source Sans 3", system-ui, sans-serif;
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-surface: var(--surface);
+  --color-ink: var(--ink);
+  --color-ink-foreground: var(--ink-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-ring-offset-background: var(--background);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+:root {
+  --radius: 0.25rem;
+  --background: oklch(0.994 0.002 100);
+  --foreground: oklch(0.27 0.016 155);
+  --surface: oklch(0.972 0.006 145);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.24 0.03 230);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.24 0.03 230);
+  --primary: oklch(0.38 0.052 160);
+  --primary-foreground: oklch(0.994 0.002 100);
+  --secondary: oklch(0.95 0.015 145);
+  --secondary-foreground: oklch(0.34 0.05 160);
+  --muted: oklch(0.965 0.003 100);
+  --muted-foreground: oklch(0.49 0.012 155);
+  --accent: oklch(0.9 0.026 15);
+  --accent-foreground: oklch(0.38 0.08 15);
+  --ink: oklch(0.28 0.025 160);
+  --ink-foreground: oklch(0.98 0.003 100);
+  --success: oklch(0.55 0.11 155);
+  --success-foreground: oklch(0.98 0.01 155);
+  --warning: oklch(0.75 0.13 75);
+  --warning-foreground: oklch(0.28 0.05 60);
+  --destructive: oklch(0.56 0.2 27);
+  --destructive-foreground: oklch(0.98 0.01 27);
+  --border: oklch(0.87 0.008 145);
+  --input: oklch(0.8 0.008 145);
+  --ring: oklch(0.38 0.052 160);
+  --sidebar: oklch(0.27 0.045 220);
+  --sidebar-foreground: oklch(0.92 0.01 85);
+  --sidebar-primary: oklch(0.8 0.08 190);
+  --sidebar-primary-foreground: oklch(0.2 0.04 220);
+  --sidebar-accent: oklch(0.33 0.045 220);
+  --sidebar-accent-foreground: oklch(0.98 0.01 85);
+  --sidebar-border: oklch(0.35 0.04 220);
+  --sidebar-ring: oklch(0.8 0.08 190);
+  --shadow-soft:
+    0 1px 2px oklch(0.24 0.03 230 / 0.05), 0 8px 24px -12px oklch(0.24 0.03 230 / 0.15);
+  --gradient-hero: linear-gradient(
+    90deg,
+    oklch(0.18 0.018 160 / 0.92) 0%,
+    oklch(0.18 0.018 160 / 0.72) 46%,
+    oklch(0.18 0.018 160 / 0.16) 100%
+  );
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    letter-spacing: 0;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-ring);
+    outline-offset: 2px;
+  }
+}
+
+@utility shadow-soft {
+  box-shadow: var(--shadow-soft);
+}
+@utility bg-hero-overlay {
+  background-image: var(--gradient-hero);
+}
+@utility container-page {
+  width: 100%;
+  max-width: 76rem;
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+}
+@utility eyebrow {
+  font-size: 0.8125rem;
+  letter-spacing: 0;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+/* Public pages use quieter editorial edges rather than floating panels. */
+#main .rounded-2xl,
+#main .rounded-xl {
+  border-radius: var(--radius);
+}
+#main .shadow-soft {
+  box-shadow: none;
+}
+#main input,
+#main select,
+#main textarea {
+  min-width: 0;
+}
+#main h1 {
+  overflow-wrap: break-word;
+}
+#main .group {
+  transition:
+    border-color 180ms ease,
+    color 180ms ease;
+}
+#main .group:hover {
+  transform: none;
+}
+#main .group:hover img {
+  transform: none;
+}
+.home-hero {
+  min-height: 31rem;
+}
+.home-hero-image {
+  object-position: 70% center;
+}
+@media (max-width: 767px) {
+  .home-hero {
+    min-height: 0;
+  }
+  .home-hero-image {
+    object-position: 60% center;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Rendered article / rich text */
+.prose-med {
+  line-height: 1.75;
+  font-size: 1.0625rem;
+  color: var(--color-foreground);
+}
+.prose-med h2 {
+  font-size: 1.6rem;
+  margin: 2.2rem 0 0.8rem;
+  line-height: 1.25;
+}
+.prose-med h3 {
+  font-size: 1.25rem;
+  margin: 1.6rem 0 0.6rem;
+}
+.prose-med p {
+  margin: 0 0 1.1rem;
+}
+.prose-med ul {
+  list-style: disc;
+  padding-left: 1.4rem;
+  margin: 0 0 1.1rem;
+}
+.prose-med ol {
+  list-style: decimal;
+  padding-left: 1.4rem;
+  margin: 0 0 1.1rem;
+}
+.prose-med li {
+  margin: 0.3rem 0;
+}
+.prose-med a {
+  color: var(--color-primary);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.prose-med blockquote {
+  border-left: 3px solid var(--color-accent);
+  padding-left: 1rem;
+  color: var(--color-muted-foreground);
+  font-style: italic;
+}
+.prose-med img {
+  border-radius: var(--radius);
+  margin: 1.5rem 0;
+}
+.prose-med strong {
+  font-weight: 600;
+}
