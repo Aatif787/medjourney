@@ -64,99 +64,91 @@ function Home() {
 
   return (
     <>
-      {/* Hero */}
-      <section className="relative overflow-hidden bg-background py-10 md:py-16 border-b border-border/50">
-        <div className="container-page">
-          <div className="grid items-center gap-10 lg:grid-cols-12 lg:gap-12">
-            <div className="lg:col-span-6">
-              <p className="eyebrow">Treatment abroad</p>
-              <h1 className="mt-4 text-4xl font-semibold leading-[1.15] text-ink md:text-5xl lg:text-6xl">
-                {settings?.site_name || BRAND.name}
-              </h1>
-              <p className="mt-5 font-display text-2xl leading-snug text-foreground/90 md:text-3xl">
-                A conversation is a good place to start.
-              </p>
-              <p className="mt-4 max-w-xl text-base md:text-lg text-muted-foreground leading-relaxed">
-                Looking into treatment in another country? Browse accredited hospitals, certified specialists,
-                ask your questions, and take the time you need to decide.
-              </p>
-              <form
-                role="search"
-                className="relative mt-8 max-w-xl"
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  if (match[0]) navigate({ to: "/treatments/$slug", params: { slug: match[0].slug } });
-                  else navigate({ to: "/treatments", search: { q: q.trim() || undefined } });
-                }}
-              >
-                <label htmlFor="hero-search" className="sr-only">
-                  Search treatments
-                </label>
-                <div className="flex gap-2 rounded-xl border border-input bg-card p-2 shadow-xs focus-within:border-primary transition-colors">
-                  <div className="flex min-w-0 flex-1 items-center gap-2 px-2">
-                    <Search className="h-5 w-5 text-muted-foreground" aria-hidden />
-                    <input
-                      id="hero-search"
-                      value={q}
-                      onChange={(e) => setQ(e.target.value)}
-                      placeholder="Which treatment are you considering?"
-                      className="h-11 w-full bg-transparent text-foreground outline-none placeholder:text-muted-foreground"
-                      autoComplete="off"
-                    />
-                  </div>
-                  <Button
-                    type="submit"
-                    size="icon"
-                    className="h-11 w-11 shrink-0 rounded-lg"
-                    aria-label="Search treatments"
-                  >
-                    <ArrowRight className="h-5 w-5" />
-                  </Button>
+      {/* Hero: Full-Screen Responsive Cover Image with CSS clamp() */}
+      <section className="home-hero border-b border-border/40">
+        <img
+          src="/images/hero.jpg"
+          alt="MedJourney International Medical Center"
+          width={1920}
+          height={1080}
+          className="home-hero-image"
+          fetchPriority="high"
+        />
+        <div className="container-page relative z-10 w-full">
+          <div className="home-hero-panel shadow-lg">
+            <p className="eyebrow">Treatment abroad</p>
+            <h1 className="home-hero-title mt-3 font-semibold text-ink">
+              {settings?.site_name || BRAND.name}
+            </h1>
+            <p className="home-hero-subtitle mt-3 font-display leading-snug text-foreground/90">
+              A conversation is a good place to start.
+            </p>
+            <p className="home-hero-text mt-3 text-muted-foreground leading-relaxed">
+              Looking into treatment in another country? Browse accredited hospitals, certified specialists,
+              ask your questions, and take the time you need to decide.
+            </p>
+            <form
+              role="search"
+              className="relative mt-6 max-w-xl"
+              onSubmit={(e) => {
+                e.preventDefault();
+                if (match[0]) navigate({ to: "/treatments/$slug", params: { slug: match[0].slug } });
+                else navigate({ to: "/treatments", search: { q: q.trim() || undefined } });
+              }}
+            >
+              <label htmlFor="hero-search" className="sr-only">
+                Search treatments
+              </label>
+              <div className="flex gap-2 rounded-xl border border-input bg-card p-1.5 shadow-xs focus-within:border-primary transition-colors">
+                <div className="flex min-w-0 flex-1 items-center gap-2 px-2">
+                  <Search className="h-5 w-5 text-muted-foreground" aria-hidden />
+                  <input
+                    id="hero-search"
+                    value={q}
+                    onChange={(e) => setQ(e.target.value)}
+                    placeholder="Which treatment are you considering?"
+                    className="h-10 sm:h-11 w-full bg-transparent text-foreground outline-none placeholder:text-muted-foreground text-sm sm:text-base"
+                    autoComplete="off"
+                  />
                 </div>
-                {match.length > 0 && (
-                  <ul className="absolute z-20 mt-2 w-full overflow-hidden rounded-xl border bg-card shadow-soft">
-                    {match.map((t) => (
-                      <li key={t.id}>
-                        <Link
-                          to="/treatments/$slug"
-                          params={{ slug: t.slug }}
-                          className="block px-4 py-3 text-sm hover:bg-muted font-medium"
-                        >
-                          {t.name}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </form>
-              <div className="mt-8 flex flex-wrap items-center gap-4">
-                <a
-                  href="#enquiry"
-                  className="inline-flex items-center gap-1.5 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-sm hover:bg-primary/90 transition-all"
+                <Button
+                  type="submit"
+                  size="icon"
+                  className="h-10 w-10 sm:h-11 sm:w-11 shrink-0 rounded-lg"
+                  aria-label="Search treatments"
                 >
-                  Start Free Medical Assessment ↓
-                </a>
-                <Link
-                  to="/contact"
-                  className="inline-flex items-center gap-1 text-sm font-medium text-foreground underline-offset-4 hover:underline"
-                >
-                  Ask a coordinator <ArrowRight className="h-4 w-4" aria-hidden />
-                </Link>
+                  <ArrowRight className="h-5 w-5" />
+                </Button>
               </div>
-            </div>
-
-            {/* Right Column: 100% Super Clear 12K Resolution Image without any shadow or blur overlay */}
-            <div className="lg:col-span-6">
-              <div className="overflow-hidden rounded-2xl border border-border/60">
-                <img
-                  src="/images/hero.jpg"
-                  alt="MedJourney International Medical Center"
-                  width={1920}
-                  height={1080}
-                  className="w-full h-auto object-cover aspect-[16/11]"
-                  fetchPriority="high"
-                />
-              </div>
+              {match.length > 0 && (
+                <ul className="absolute z-20 mt-2 w-full overflow-hidden rounded-xl border bg-card shadow-soft">
+                  {match.map((t) => (
+                    <li key={t.id}>
+                      <Link
+                        to="/treatments/$slug"
+                        params={{ slug: t.slug }}
+                        className="block px-4 py-3 text-sm hover:bg-muted font-medium"
+                      >
+                        {t.name}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </form>
+            <div className="mt-6 flex flex-wrap items-center gap-3 sm:gap-4">
+              <a
+                href="#enquiry"
+                className="inline-flex items-center gap-1.5 rounded-full bg-primary px-5 py-2.5 sm:px-6 sm:py-3 text-xs sm:text-sm font-semibold text-primary-foreground shadow-sm hover:bg-primary/90 transition-all"
+              >
+                Start Free Medical Assessment ↓
+              </a>
+              <Link
+                to="/contact"
+                className="inline-flex items-center gap-1 text-xs sm:text-sm font-medium text-foreground underline-offset-4 hover:underline"
+              >
+                Ask a coordinator <ArrowRight className="h-3.5 w-3.5 sm:h-4 sm:w-4" aria-hidden />
+              </Link>
             </div>
           </div>
         </div>
