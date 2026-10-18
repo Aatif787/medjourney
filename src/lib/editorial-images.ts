@@ -1,11 +1,7 @@
-import consultation from "@/assets/consultation.jpg.asset.json";
-import hospital from "@/assets/hospital.jpg.asset.json";
-import hospitalExterior from "@/assets/hospital-exterior.jpg.asset.json";
-import hospitalInterior from "@/assets/hospital-interior.jpg.asset.json";
-import notes from "@/assets/notes.jpg.asset.json";
-import travel from "@/assets/travel.jpg.asset.json";
-
-/** Only replace the original generated demo images; keep CMS uploads untouched. */
+/**
+ * Resolves editorial and illustrative image paths for demo and CMS records.
+ * Uses local static images served from /images/*, preserving CMS uploads and labelling illustrative photos.
+ */
 export function editorialImage(
   source?: string | null,
 ): { url: string; alt?: string; illustrative?: boolean } | null {
@@ -13,28 +9,37 @@ export function editorialImage(
   const path = source.split("?")[0];
   if (path === "/images/hospital-1.jpg")
     return {
-      url: hospitalExterior.url,
-      alt: "Hospital building surrounded by trees",
+      url: "/images/hospital-1.jpg",
+      alt: "Modern hospital building surrounded by trees and water",
       illustrative: true,
     };
   if (path === "/images/hospital-2.jpg")
     return {
-      url: hospitalInterior.url,
-      alt: "Hospital interior with a reception area",
+      url: "/images/hospital-2.jpg",
+      alt: "Hospital campus with modern architectural facilities",
       illustrative: true,
     };
   if (path === "/images/hospital-3.jpg") {
     return {
-      url: hospital.url,
-      alt: "Operating room with surgical lights and equipment",
+      url: "/images/hospital-3.jpg",
+      alt: "State-of-the-art clinic examination room and diagnostic equipment",
       illustrative: true,
     };
   }
   if (path === "/images/blog-1.jpg")
-    return { url: travel.url, alt: "View of an aircraft wing above the clouds" };
+    return {
+      url: "/images/blog-1.jpg",
+      alt: "Traveller with medical documents and passport preparing for care abroad",
+    };
   if (path === "/images/blog-2.jpg")
-    return { url: notes.url, alt: "Fountain pen on handwritten notes" };
+    return {
+      url: "/images/blog-2.jpg",
+      alt: "Doctor reviewing neurological imaging and MRI scan with patient",
+    };
   if (path === "/images/blog-3.jpg")
-    return { url: consultation.url, alt: "Doctor holding a phone" };
+    return {
+      url: "/images/blog-3.jpg",
+      alt: "Physical therapy and rehabilitation session for recovery",
+    };
   return { url: source };
 }

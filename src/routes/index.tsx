@@ -19,7 +19,6 @@ import { Button } from "@/components/ui/button";
 import { getHome } from "@/lib/public.functions";
 import { HospitalCard, DoctorCard, PostCard, EmptyState } from "@/components/site/Cards";
 import { PatientIntakeForm } from "@/components/site/PatientIntakeForm";
-import hero from "@/assets/consultation.jpg.asset.json";
 import { BRAND } from "@/lib/brand";
 
 export const Route = createFileRoute("/")({
@@ -68,8 +67,8 @@ function Home() {
       {/* Hero */}
       <section className="home-hero relative overflow-hidden">
         <img
-          src={hero.url}
-          alt=""
+          src="/images/hero.jpg"
+          alt="MedJourney Healthcare Center"
           width={1920}
           height={1280}
           className="home-hero-image absolute inset-0 h-full w-full object-cover"

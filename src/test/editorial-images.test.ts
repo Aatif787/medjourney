@@ -13,7 +13,7 @@ describe("Editorial image replacements", () => {
       "/images/hospital-3.jpg",
     ]) {
       expect(editorialImage(source)?.illustrative).toBe(true);
-      expect(editorialImage(source)?.url).not.toBe(source);
+      expect(editorialImage(source)?.url).toBe(source);
     }
   });
 });
