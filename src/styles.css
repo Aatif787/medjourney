@@ -161,109 +161,115 @@
   overflow-wrap: break-word;
 }
 /* ========================================================
- * Apple-Grade Motion, Scroll Reveals & Transmission Engine
+ * HyperMotion 3D Engine: Spatial Revelations, Gyroscopic
+ * Tilt, Holographic Cursor Spotlight & Shimmer Transmissions
  * ======================================================== */
 
 :root {
   --ease-apple: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  --ease-hyper: cubic-bezier(0.2, 0.9, 0.2, 1);
 }
 
 /* Route Transmission / Page Entry Animation */
 @keyframes appleRouteFade {
   0% {
     opacity: 0.92;
-    transform: translate3d(0, 6px, 0);
+    transform: perspective(1200px) rotateX(2deg) translate3d(0, 10px, 0);
   }
   100% {
     opacity: 1;
-    transform: translate3d(0, 0, 0);
+    transform: perspective(1200px) rotateX(0deg) translate3d(0, 0, 0);
   }
 }
 
 #main {
-  animation: appleRouteFade 400ms var(--ease-apple);
+  animation: appleRouteFade 500ms var(--ease-apple);
 }
 
-/* Scroll-based Reveal Animations (re-triggers every time into/out of view) */
+/* Scroll-based 3D Spatial Reveal Animations (re-triggers every time into/out of view) */
 [data-reveal],
 .reveal-on-scroll {
   will-change: transform, opacity, filter;
   transition:
-    opacity 800ms var(--ease-apple),
-    transform 900ms var(--ease-apple),
+    opacity 850ms var(--ease-apple),
+    transform 950ms var(--ease-apple),
     filter 800ms var(--ease-apple);
 }
 
-/* Variant: Fade Up (Default) */
+/* Variant: 3D Spatial Lift (Default) */
 [data-reveal="fade-up"],
 [data-reveal=""] {
   opacity: 0;
-  transform: translate3d(0, 36px, 0) scale(0.975);
-  filter: blur(4px);
+  transform: perspective(1200px) rotateX(14deg) translate3d(0, 50px, -30px) scale(0.93);
+  filter: blur(8px);
 }
 [data-reveal="fade-up"].in-view,
 [data-reveal=""].in-view {
   opacity: 1;
-  transform: translate3d(0, 0, 0) scale(1);
+  transform: perspective(1200px) rotateX(0deg) translate3d(0, 0, 0) scale(1);
   filter: blur(0px);
 }
 
-/* Variant: Scale / Soft Bloom */
+/* Variant: Kinetic Spatial Bloom */
 [data-reveal="scale"] {
   opacity: 0;
-  transform: scale(0.92);
-  filter: blur(8px);
+  transform: perspective(1200px) scale(0.88) translate3d(0, 30px, -40px);
+  filter: blur(12px);
 }
 [data-reveal="scale"].in-view {
   opacity: 1;
-  transform: scale(1);
+  transform: perspective(1200px) scale(1) translate3d(0, 0, 0);
   filter: blur(0px);
 }
 
-/* Variant: Slide Left */
+/* Variant: 3D Spatial Lateral Left */
 [data-reveal="slide-left"] {
   opacity: 0;
-  transform: translate3d(-40px, 0, 0);
-  filter: blur(4px);
+  transform: perspective(1200px) rotateY(-14deg) translate3d(-60px, 0, -30px) scale(0.94);
+  filter: blur(8px);
 }
 [data-reveal="slide-left"].in-view {
   opacity: 1;
-  transform: translate3d(0, 0, 0);
+  transform: perspective(1200px) rotateY(0deg) translate3d(0, 0, 0) scale(1);
   filter: blur(0px);
 }
 
-/* Variant: Slide Right */
+/* Variant: 3D Spatial Lateral Right */
 [data-reveal="slide-right"] {
   opacity: 0;
-  transform: translate3d(40px, 0, 0);
-  filter: blur(4px);
+  transform: perspective(1200px) rotateY(14deg) translate3d(60px, 0, -30px) scale(0.94);
+  filter: blur(8px);
 }
 [data-reveal="slide-right"].in-view {
   opacity: 1;
-  transform: translate3d(0, 0, 0);
+  transform: perspective(1200px) rotateY(0deg) translate3d(0, 0, 0) scale(1);
   filter: blur(0px);
 }
 
-/* Stagger Children Animation */
+/* Hyper Cascading 3D Grid Stagger */
+[data-stagger] {
+  perspective: 1400px;
+}
+
 [data-stagger] > * {
   opacity: 0;
-  transform: translate3d(0, 32px, 0) scale(0.98);
-  filter: blur(4px);
+  transform: perspective(1200px) rotateX(15deg) translate3d(0, 60px, -35px) scale(0.92);
+  filter: blur(6px);
   transition:
-    opacity 750ms var(--ease-apple),
-    transform 850ms var(--ease-apple),
-    filter 700ms var(--ease-apple);
+    opacity 800ms var(--ease-apple),
+    transform 950ms var(--ease-apple),
+    filter 750ms var(--ease-apple);
   will-change: transform, opacity, filter;
 }
 
 [data-stagger].in-view > * {
   opacity: 1;
-  transform: translate3d(0, 0, 0) scale(1);
+  transform: perspective(1200px) rotateX(0deg) translate3d(0, 0, 0) scale(1);
   filter: blur(0px);
 }
 
-/* Stagger Delays */
+/* Stagger Cascading Waves */
 [data-stagger] > *:nth-child(1) { transition-delay: 40ms; }
 [data-stagger] > *:nth-child(2) { transition-delay: 110ms; }
 [data-stagger] > *:nth-child(3) { transition-delay: 180ms; }
@@ -273,40 +279,196 @@
 [data-stagger] > *:nth-child(7) { transition-delay: 460ms; }
 [data-stagger] > *:nth-child(8) { transition-delay: 530ms; }
 
-/* Apple-style Interactive Motion Cards & Hover Transmissions */
+/* 3D Gyroscopic Motion Cards with Holographic Cursor Spotlight */
 .motion-card {
+  position: relative;
+  isolation: isolate;
+  transform-style: preserve-3d;
+  will-change: transform, box-shadow, border-color;
+  transform: perspective(1000px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg)) translate3d(0, 0, 0);
   transition:
-    transform 500ms var(--ease-apple),
-    box-shadow 500ms var(--ease-apple),
-    border-color 450ms var(--ease-apple);
-  will-change: transform, box-shadow;
+    transform 350ms cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 450ms cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 400ms cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+}
+
+/* Dynamic Radial Cursor Spotlight Inside Card */
+.motion-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    380px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(24, 75, 61, 0.16),
+    transparent 65%
+  );
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 350ms ease;
+  z-index: 15;
+}
+
+.motion-card:hover::before {
+  opacity: 1;
+}
+
+/* Dynamic Specular Border Shine */
+.motion-card::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: radial-gradient(
+    320px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(34, 197, 94, 0.5),
+    transparent 65%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 350ms ease;
+  z-index: 20;
+}
+
+.motion-card:hover::after {
+  opacity: 1;
 }
 
 [data-stagger].in-view > .motion-card {
   transition:
-    transform 500ms var(--ease-apple),
-    box-shadow 500ms var(--ease-apple),
-    border-color 450ms var(--ease-apple),
-    opacity 750ms var(--ease-apple),
-    filter 700ms var(--ease-apple);
+    transform 350ms cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 450ms cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 400ms cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 800ms var(--ease-apple),
+    filter 750ms var(--ease-apple);
 }
 
 [data-stagger].in-view > .motion-card:hover,
 .motion-card:hover {
-  transform: translate3d(0, -8px, 0) scale(1.008);
+  transform: perspective(1000px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg)) translate3d(0, -10px, 20px) scale(1.02);
   border-color: rgba(24, 75, 61, 0.35);
   box-shadow:
-    0 24px 48px -12px rgba(24, 75, 61, 0.16),
-    0 4px 16px 0 rgba(0, 0, 0, 0.04);
+    0 0 0 1px rgba(24, 75, 61, 0.25),
+    0 20px 45px -15px rgba(24, 75, 61, 0.22),
+    0 40px 80px -20px rgba(0, 0, 0, 0.12);
 }
 
-.motion-card img {
-  transition: transform 750ms var(--ease-apple);
+.motion-card .motion-card-image img {
+  transition: transform 850ms cubic-bezier(0.16, 1, 0.3, 1), filter 850ms ease;
   will-change: transform;
 }
 
-.motion-card:hover img {
-  transform: scale(1.06);
+.motion-card:hover .motion-card-image img {
+  transform: scale(1.08);
+}
+
+/* Hyper Shimmer Beam for Primary Action Buttons */
+.hyper-button {
+  position: relative;
+  overflow: hidden;
+  transition: transform 300ms var(--ease-apple), box-shadow 300ms var(--ease-apple);
+}
+
+.hyper-button:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 12px 28px -6px rgba(24, 75, 61, 0.35);
+}
+
+.hyper-button::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.4),
+    transparent
+  );
+  transform: translateX(-150%) skewX(-25deg);
+  animation: hyperShimmer 3.5s infinite;
+}
+
+@keyframes hyperShimmer {
+  0% { transform: translateX(-150%) skewX(-25deg); }
+  35%, 100% { transform: translateX(250%) skewX(-25deg); }
+}
+
+/* Glowing Pulse Indicator for Eyebrows */
+.eyebrow-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0.85rem;
+  border-radius: 9999px;
+  background: rgba(24, 75, 61, 0.08);
+  border: 1px solid rgba(24, 75, 61, 0.22);
+  backdrop-filter: blur(8px);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+  box-shadow: 0 2px 10px -2px rgba(24, 75, 61, 0.12);
+}
+
+.pulse-dot {
+  position: relative;
+  display: inline-block;
+  width: 6.5px;
+  height: 6.5px;
+  border-radius: 9999px;
+  background-color: #10b981;
+}
+
+.pulse-dot::before {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  border-radius: 9999px;
+  background-color: #10b981;
+  opacity: 0.75;
+  animation: pingGlow 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+@keyframes pingGlow {
+  75%, 100% {
+    transform: scale(2.5);
+    opacity: 0;
+  }
+}
+
+/* Ambient Floating Luminous Auroras */
+@keyframes auroraFloat {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.3;
+  }
+  50% {
+    transform: translate3d(35px, -25px, 0) scale(1.15);
+    opacity: 0.5;
+  }
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.3;
+  }
+}
+
+.aurora-orb {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(90px);
+  pointer-events: none;
+  animation: auroraFloat 10s ease-in-out infinite alternate;
+  will-change: transform, opacity;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -314,7 +476,9 @@
   .reveal-on-scroll,
   [data-stagger] > *,
   .motion-card,
-  .motion-card img {
+  .motion-card img,
+  .hyper-button::after,
+  .aurora-orb {
     transition: none !important;
     animation: none !important;
     transform: none !important;

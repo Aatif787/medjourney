@@ -75,8 +75,11 @@ function Home() {
           fetchPriority="high"
         />
         <div className="container-page relative z-10 w-full">
-          <div className="home-hero-panel" data-reveal="fade-up">
-            <span className="home-hero-eyebrow">Medical Care & Treatments</span>
+          <div className="home-hero-panel relative overflow-hidden" data-reveal="fade-up">
+            <div className="aurora-orb -top-16 -right-16 h-64 w-64 bg-primary/20" aria-hidden />
+            <span className="eyebrow-pill">
+              <span className="pulse-dot" /> Medical Care & Treatments
+            </span>
             <h1 className="home-hero-title mt-3.5 font-semibold text-ink">
               {settings?.site_name || BRAND.name}
             </h1>
@@ -99,7 +102,7 @@ function Home() {
               <label htmlFor="hero-search" className="sr-only">
                 Search treatments
               </label>
-              <div className="home-hero-search flex gap-2 rounded-xl p-1.5">
+              <div className="home-hero-search flex gap-2 rounded-xl p-1.5 transition-all focus-within:ring-2 focus-within:ring-primary/40 focus-within:shadow-md">
                 <div className="flex min-w-0 flex-1 items-center gap-2.5 px-3">
                   <Search className="h-5 w-5 text-muted-foreground shrink-0" aria-hidden />
                   <input
@@ -139,7 +142,7 @@ function Home() {
             <div className="mt-6 flex flex-wrap items-center gap-3 sm:gap-4">
               <a
                 href="#enquiry"
-                className="inline-flex items-center gap-1.5 rounded-full bg-primary px-5 py-2.5 sm:px-6 sm:py-3 text-xs sm:text-sm font-semibold text-primary-foreground shadow-sm hover:bg-primary/90 transition-all"
+                className="hyper-button inline-flex items-center gap-1.5 rounded-full bg-primary px-5 py-2.5 sm:px-6 sm:py-3 text-xs sm:text-sm font-semibold text-primary-foreground shadow-sm transition-all"
               >
                 Start Free Medical Assessment ↓
               </a>
@@ -155,11 +158,13 @@ function Home() {
       </section>
 
       {/* Specialties */}
-      <section className="container-page py-16 md:py-20">
+      <section className="container-page relative py-16 md:py-24">
         <div className="flex flex-wrap items-end justify-between gap-4" data-reveal="fade-up">
           <div>
-            <p className="eyebrow">Specialties</p>
-            <h2 className="mt-2 text-3xl font-medium text-ink md:text-4xl">
+            <span className="eyebrow-pill">
+              <span className="pulse-dot" /> Care Specialties
+            </span>
+            <h2 className="mt-3 text-3xl font-medium text-ink md:text-4xl">
               What kind of care are you looking for?
             </h2>
           </div>
@@ -195,12 +200,15 @@ function Home() {
       </section>
 
       {/* Hospitals */}
-      <section className="bg-surface py-20">
-        <div className="container-page">
+      <section className="relative bg-surface py-20 overflow-hidden">
+        <div className="aurora-orb -top-24 -left-24 h-80 w-80 bg-primary/15" aria-hidden />
+        <div className="container-page relative z-10">
           <div className="flex flex-wrap items-end justify-between gap-4" data-reveal="fade-up">
             <div>
-              <p className="eyebrow">Hospitals</p>
-              <h2 className="mt-2 text-3xl font-medium text-ink md:text-4xl">
+              <span className="eyebrow-pill">
+                <span className="pulse-dot" /> Accredited Hospitals
+              </span>
+              <h2 className="mt-3 text-3xl font-medium text-ink md:text-4xl">
                 Get to know the hospitals
               </h2>
             </div>
@@ -219,11 +227,13 @@ function Home() {
       </section>
 
       {/* Doctors */}
-      <section className="container-page py-20">
+      <section className="container-page relative py-20">
         <div className="flex flex-wrap items-end justify-between gap-4" data-reveal="fade-up">
           <div>
-            <p className="eyebrow">Specialists</p>
-            <h2 className="mt-2 text-3xl font-semibold text-ink md:text-4xl">Doctors</h2>
+            <span className="eyebrow-pill">
+              <span className="pulse-dot" /> Expert Specialists
+            </span>
+            <h2 className="mt-3 text-3xl font-semibold text-ink md:text-4xl">Doctors</h2>
           </div>
           <Link to="/doctors" className="text-sm font-medium text-primary hover:underline">
             All doctors →
@@ -239,11 +249,14 @@ function Home() {
       </section>
 
       {/* Support */}
-      <section className="bg-ink py-20 text-ink-foreground overflow-hidden">
-        <div className="container-page">
+      <section className="relative bg-ink py-20 text-ink-foreground overflow-hidden">
+        <div className="aurora-orb -bottom-20 -right-20 h-96 w-96 bg-primary/30" aria-hidden />
+        <div className="container-page relative z-10">
           <div data-reveal="fade-up">
-            <p className="eyebrow !text-ink-foreground/70">Patient support</p>
-            <h2 className="mt-2 max-w-2xl text-3xl font-medium md:text-4xl">
+            <span className="eyebrow-pill !bg-white/10 !text-white/90 !border-white/20">
+              <span className="pulse-dot !bg-emerald-400" /> Patient Support
+            </span>
+            <h2 className="mt-3 max-w-2xl text-3xl font-medium md:text-4xl">
               From your first question to your return home
             </h2>
           </div>
@@ -290,8 +303,10 @@ function Home() {
       <section className="container-page py-20">
         <div className="flex flex-wrap items-end justify-between gap-4" data-reveal="fade-up">
           <div>
-            <p className="eyebrow">Patient guides</p>
-            <h2 className="mt-2 text-3xl font-medium text-ink md:text-4xl">
+            <span className="eyebrow-pill">
+              <span className="pulse-dot" /> Patient Guides
+            </span>
+            <h2 className="mt-3 text-3xl font-medium text-ink md:text-4xl">
               A little reading before you decide
             </h2>
           </div>
@@ -309,11 +324,14 @@ function Home() {
       </section>
 
       {/* Patient Intake Assessment Section */}
-      <section className="bg-surface py-20 overflow-hidden" id="enquiry">
-        <div className="container-page grid gap-10 lg:grid-cols-[1fr_1.4fr] lg:items-start">
+      <section className="relative bg-surface py-20 overflow-hidden" id="enquiry">
+        <div className="aurora-orb -top-20 -right-20 h-80 w-80 bg-primary/15" aria-hidden />
+        <div className="container-page relative z-10 grid gap-10 lg:grid-cols-[1fr_1.4fr] lg:items-start">
           <div data-reveal="slide-left">
-            <p className="eyebrow">Personalized Patient Triage</p>
-            <h2 className="mt-2 text-3xl font-medium text-ink md:text-4xl">
+            <span className="eyebrow-pill">
+              <span className="pulse-dot" /> Adaptive Triage
+            </span>
+            <h2 className="mt-3 text-3xl font-medium text-ink md:text-4xl">
               Tell us about your medical needs.
             </h2>
             <p className="mt-4 max-w-md text-muted-foreground leading-relaxed">
