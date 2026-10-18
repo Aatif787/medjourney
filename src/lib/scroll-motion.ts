@@ -4,8 +4,10 @@ import { useEffect } from "react";
  * HyperMotion Engine
  * 1. Re-triggerable 3D scroll observer for section headers, grids, and cards.
  * 2. 3D Spatial Tilt & Holographic Cursor Spotlight tracking for cards.
- * 3. Scroll-Scrubbed 3D Double-Door Engine: dynamically moves with the scroll position
+ * 3. Scroll-Scrubbed 3D Double-Door Engine for intake section:
  *    (scrolling down closes the doors together, scrolling upward pushes them back out of screen).
+ * 4. Scroll-Scrubbed Hero Panel Engine:
+ *    (scrolling down away from top moves panel out, scrolling upward to top brings it back in and closes shut).
  */
 export function initScrollMotion(): () => void {
   if (typeof window === "undefined") {
@@ -51,7 +53,6 @@ export function initScrollMotion(): () => void {
   let scrollDoorRaf: number | null = null;
 
   function updateScrollDoors() {
-    scrollDoorRaf = null;
     const containers = document.querySelectorAll<HTMLElement>(
       ".door-container, [data-scroll-doors]"
     );
@@ -95,9 +96,65 @@ export function initScrollMotion(): () => void {
     });
   }
 
+  // 3. Scroll-Linked Scrubbed Hero Panel Controller
+  // Scrolling down away from top moves hero panel out to the left
+  // Scrolling up back to top brings hero panel in from the left and closes shut
+  let hasScrolledHero = false;
+
+  function bindHeroEntrance() {
+    const heroPanel = document.querySelector<HTMLElement>(".home-hero-panel");
+    if (!heroPanel) return;
+    heroPanel.addEventListener(
+      "animationend",
+      () => {
+        hasScrolledHero = true;
+        heroPanel.style.animation = "none";
+      },
+      { once: true }
+    );
+  }
+  bindHeroEntrance();
+
+  function updateHeroScroll() {
+    const heroPanel = document.querySelector<HTMLElement>(".home-hero-panel");
+    if (!heroPanel) return;
+
+    const scrollY = window.scrollY || window.pageYOffset || 0;
+    if (!hasScrolledHero && scrollY === 0) {
+      // Let initial CSS entrance play on mount
+      return;
+    }
+    hasScrolledHero = true;
+    heroPanel.style.animation = "none"; // Hand off control to 1:1 scroll
+
+    const isMobile = window.innerWidth < 1024;
+    const maxScroll = isMobile ? 360 : 500;
+    const rawProgress = 1 - scrollY / maxScroll;
+    const progress = Math.min(Math.max(rawProgress, 0), 1);
+
+    const eased = Math.sin((progress * Math.PI) / 2);
+    const openFactor = 1 - eased;
+
+    const xOffsetVw = openFactor * (isMobile ? 100 : 85);
+    const rotateAngle = openFactor * (isMobile ? 28 : 50);
+    const zOffset = openFactor * -140;
+    const scale = 0.88 + eased * 0.12;
+    const opacity = Math.min(eased * 1.3, 1);
+    const blur = openFactor * 12;
+
+    heroPanel.style.transform = `perspective(2000px) rotateY(${-rotateAngle}deg) translate3d(${-xOffsetVw}vw, 0, ${zOffset}px) scale(${scale})`;
+    heroPanel.style.opacity = `${opacity}`;
+    heroPanel.style.filter = blur > 0.4 ? `blur(${blur.toFixed(1)}px)` : "none";
+    heroPanel.style.pointerEvents = openFactor > 0.75 ? "none" : "auto";
+  }
+
   const handleScroll = () => {
     if (!scrollDoorRaf) {
-      scrollDoorRaf = requestAnimationFrame(updateScrollDoors);
+      scrollDoorRaf = requestAnimationFrame(() => {
+        updateScrollDoors();
+        updateHeroScroll();
+        scrollDoorRaf = null;
+      });
     }
   };
 
@@ -106,11 +163,14 @@ export function initScrollMotion(): () => void {
 
   // Initial calculation
   updateScrollDoors();
+  updateHeroScroll();
 
   // Re-scan when DOM changes (e.g. route transitions, dynamic data)
   const mutationObserver = new MutationObserver(() => {
     scanAndObserve();
+    bindHeroEntrance();
     updateScrollDoors();
+    updateHeroScroll();
   });
 
   mutationObserver.observe(document.body, {
@@ -118,7 +178,7 @@ export function initScrollMotion(): () => void {
     subtree: true,
   });
 
-  // 3. Interactive 3D Card Tilt & Holographic Spotlight Tracker
+  // 4. Interactive 3D Card Tilt & Holographic Spotlight Tracker
   let activeCard: HTMLElement | null = null;
   let rafId: number | null = null;
   let targetTiltX = 0;

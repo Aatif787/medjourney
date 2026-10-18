@@ -74,19 +74,19 @@ function Home() {
           className="home-hero-image"
           fetchPriority="high"
         />
-        <div className="container-page relative z-10 w-full">
-          <div className="home-hero-panel relative overflow-hidden" data-reveal="fade-up">
+        <div className="container-page relative z-10 w-full hero-door-container">
+          <div className="home-hero-panel relative overflow-hidden">
             <div className="aurora-orb -top-16 -right-16 h-64 w-64 bg-primary/20" aria-hidden />
             <span className="eyebrow-pill">
               <span className="pulse-dot" /> Medical Care & Treatments
             </span>
-            <h1 className="home-hero-title mt-3.5 font-semibold text-ink">
+            <h1 className="home-hero-title mt-3.5 font-bold">
               {settings?.site_name || BRAND.name}
             </h1>
-            <p className="home-hero-subtitle mt-3 font-display leading-snug text-foreground/90">
+            <p className="home-hero-subtitle mt-3 font-display leading-snug">
               A conversation is a good place to start.
             </p>
-            <p className="home-hero-text mt-3 text-muted-foreground leading-relaxed">
+            <p className="home-hero-text mt-3 leading-relaxed">
               Explore accredited hospitals, certified specialists, and verified treatment options.
               Ask your questions and receive clear, personalized guidance tailored to your needs.
             </p>
@@ -104,13 +104,13 @@ function Home() {
               </label>
               <div className="home-hero-search flex gap-2 rounded-xl p-1.5 transition-all focus-within:ring-2 focus-within:ring-primary/40 focus-within:shadow-md">
                 <div className="flex min-w-0 flex-1 items-center gap-2.5 px-3">
-                  <Search className="h-5 w-5 text-muted-foreground shrink-0" aria-hidden />
+                  <Search className="h-5 w-5 text-slate-500 shrink-0" aria-hidden />
                   <input
                     id="hero-search"
                     value={q}
                     onChange={(e) => setQ(e.target.value)}
                     placeholder="Search medical treatments or procedures..."
-                    className="h-10 sm:h-11 w-full bg-transparent text-foreground outline-none placeholder:text-muted-foreground text-sm sm:text-base font-normal"
+                    className="h-10 sm:h-11 w-full bg-transparent text-slate-900 outline-none placeholder:text-slate-500 text-sm sm:text-base font-medium"
                     autoComplete="off"
                   />
                 </div>
@@ -148,7 +148,7 @@ function Home() {
               </a>
               <Link
                 to="/contact"
-                className="inline-flex items-center gap-1 text-xs sm:text-sm font-medium text-foreground underline-offset-4 hover:underline"
+                className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-slate-800 underline-offset-4 hover:underline hover:text-primary transition-colors"
               >
                 Ask a coordinator <ArrowRight className="h-3.5 w-3.5 sm:h-4 sm:w-4" aria-hidden />
               </Link>
