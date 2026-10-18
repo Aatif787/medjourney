@@ -1,6 +1,9 @@
 import { createClient } from "@supabase/supabase-js";
 import type { Database } from "./types";
 
+const DEFAULT_SUPABASE_URL = "https://cqttvqtxlmyqdxcxgsro.supabase.co";
+const DEFAULT_SUPABASE_PUBLISHABLE_KEY = "sb_publishable_AHkZjKuYyThpz85aGTXcyQ_MloqCef3";
+
 function isNewSupabaseApiKey(value: string): boolean {
   return value.startsWith("sb_publishable_") || value.startsWith("sb_secret_");
 }
@@ -9,11 +12,7 @@ function isNewSupabaseApiKey(value: string): boolean {
 function serverSupabaseUrl(publicUrl: string, supabaseKey: string): string | undefined {
   if (typeof window !== "undefined" || typeof process === "undefined") return undefined;
   const serverUrl = process.env["SUPABASE_URL"]?.replace(/\/+$/, "");
-  if (
-    !serverUrl ||
-    serverUrl === publicUrl ||
-    process.env["SUPABASE_PUBLISHABLE_KEY"] !== supabaseKey
-  )
+  if (!serverUrl || serverUrl === publicUrl || process.env["SUPABASE_PUBLISHABLE_KEY"] !== supabaseKey)
     return undefined;
   return serverUrl;
 }
@@ -31,10 +30,7 @@ function createSupabaseFetch(supabaseUrl: string, supabaseKey: string): typeof f
     }
 
     // New Supabase API keys are opaque strings, not bearer JWTs.
-    if (
-      isNewSupabaseApiKey(supabaseKey) &&
-      headers.get("Authorization") === `Bearer ${supabaseKey}`
-    ) {
+    if (isNewSupabaseApiKey(supabaseKey) && headers.get("Authorization") === `Bearer ${supabaseKey}`) {
       headers.delete("Authorization");
     }
 
@@ -53,23 +49,18 @@ function createSupabaseFetch(supabaseUrl: string, supabaseKey: string): typeof f
 }
 
 function createSupabaseClient() {
-  // Use import.meta.env for client-side (Vite build-time replacement)
-  // Fall back to process.env for SSR (server-side rendering)
-  const SUPABASE_URL = import.meta.env["VITE_SUPABASE_URL"] || process.env["SUPABASE_URL"];
-  const SUPABASE_PUBLISHABLE_KEY =
-    import.meta.env["VITE_SUPABASE_PUBLISHABLE_KEY"] || process.env["SUPABASE_PUBLISHABLE_KEY"];
+  const envUrl =
+    import.meta.env.VITE_SUPABASE_URL ||
+    (typeof process !== "undefined" ? process.env["VITE_SUPABASE_URL"] || process.env["SUPABASE_URL"] : undefined);
 
-  if (!SUPABASE_URL || !SUPABASE_PUBLISHABLE_KEY) {
-    const missing = [
-      ...(!SUPABASE_URL ? ["SUPABASE_URL / VITE_SUPABASE_URL"] : []),
-      ...(!SUPABASE_PUBLISHABLE_KEY
-        ? ["SUPABASE_PUBLISHABLE_KEY / VITE_SUPABASE_PUBLISHABLE_KEY"]
-        : []),
-    ];
-    const message = `Missing Supabase environment variable(s): ${missing.join(", ")}. Please configure them in your .env file.`;
-    console.error(`[Supabase] ${message}`);
-    throw new Error(message);
-  }
+  const envKey =
+    import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY ||
+    (typeof process !== "undefined"
+      ? process.env["VITE_SUPABASE_PUBLISHABLE_KEY"] || process.env["SUPABASE_PUBLISHABLE_KEY"]
+      : undefined);
+
+  const SUPABASE_URL = envUrl || DEFAULT_SUPABASE_URL;
+  const SUPABASE_PUBLISHABLE_KEY = envKey || DEFAULT_SUPABASE_PUBLISHABLE_KEY;
 
   return createClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
     global: {

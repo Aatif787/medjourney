@@ -145,12 +145,16 @@ function RootComponent() {
   const isApp = pathname.startsWith("/admin") || pathname.startsWith("/auth");
 
   useEffect(() => {
-    const { data } = supabase.auth.onAuthStateChange((event) => {
-      if (event !== "SIGNED_IN" && event !== "SIGNED_OUT" && event !== "USER_UPDATED") return;
-      router.invalidate();
-      if (event !== "SIGNED_OUT") queryClient.invalidateQueries();
-    });
-    return () => data.subscription.unsubscribe();
+    try {
+      const { data } = supabase.auth.onAuthStateChange((event) => {
+        if (event !== "SIGNED_IN" && event !== "SIGNED_OUT" && event !== "USER_UPDATED") return;
+        router.invalidate();
+        if (event !== "SIGNED_OUT") queryClient.invalidateQueries();
+      });
+      return () => data?.subscription?.unsubscribe();
+    } catch (e) {
+      console.warn("Supabase auth listener initialized in fallback mode:", e);
+    }
   }, [router, queryClient]);
 
   return (
