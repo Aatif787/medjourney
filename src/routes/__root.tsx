@@ -91,17 +91,17 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "MedJourney — Treatment abroad, coordinated" },
+      { title: "MedJourney — Specialized Healthcare & Treatments" },
       {
         name: "description",
         content:
-          "Explore treatments, hospitals and doctors abroad and request a personalised estimate from a patient coordinator.",
+          "Explore treatments, accredited hospitals and certified specialists, and request a personalized assessment from a coordinator.",
       },
-      { property: "og:title", content: "MedJourney — Treatment abroad, coordinated" },
+      { property: "og:title", content: "MedJourney — Specialized Healthcare & Treatments" },
       {
         property: "og:description",
         content:
-          "Explore treatments, hospitals and doctors abroad and request a personalised estimate.",
+          "Explore treatments, accredited hospitals and certified specialists, and request a personalized assessment.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

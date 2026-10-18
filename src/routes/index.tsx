@@ -25,16 +25,16 @@ export const Route = createFileRoute("/")({
   loader: () => getHome(),
   head: () => ({
     meta: [
-      { title: "MedJourney | Treatment options abroad" },
+      { title: "MedJourney | Specialized Medical Care & Treatments" },
       {
         name: "description",
         content:
-          "Find information about treatments, hospitals and doctors abroad. Send an enquiry to discuss your options with a coordinator.",
+          "Find information about treatments, accredited hospitals, and expert doctors. Connect with a patient coordinator to discuss your options.",
       },
-      { property: "og:title", content: "MedJourney | Treatment options abroad" },
+      { property: "og:title", content: "MedJourney | Specialized Medical Care & Treatments" },
       {
         property: "og:description",
-        content: "Treatment information and help with planning care abroad.",
+        content: "Treatment information and personalized guidance for your medical journey.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -68,24 +68,24 @@ function Home() {
       <section className="home-hero border-b border-border/40">
         <img
           src="/images/hero.jpg"
-          alt="MedJourney International Medical Center"
+          alt="MedJourney Healthcare Center"
           width={1920}
           height={1080}
           className="home-hero-image"
           fetchPriority="high"
         />
         <div className="container-page relative z-10 w-full">
-          <div className="home-hero-panel shadow-lg">
-            <p className="eyebrow">Treatment abroad</p>
-            <h1 className="home-hero-title mt-3 font-semibold text-ink">
+          <div className="home-hero-panel">
+            <span className="home-hero-eyebrow">Medical Care & Treatments</span>
+            <h1 className="home-hero-title mt-3.5 font-semibold text-ink">
               {settings?.site_name || BRAND.name}
             </h1>
             <p className="home-hero-subtitle mt-3 font-display leading-snug text-foreground/90">
               A conversation is a good place to start.
             </p>
             <p className="home-hero-text mt-3 text-muted-foreground leading-relaxed">
-              Looking into treatment in another country? Browse accredited hospitals, certified specialists,
-              ask your questions, and take the time you need to decide.
+              Explore accredited hospitals, certified specialists, and verified treatment options.
+              Ask your questions and receive clear, personalized guidance tailored to your needs.
             </p>
             <form
               role="search"
@@ -99,22 +99,22 @@ function Home() {
               <label htmlFor="hero-search" className="sr-only">
                 Search treatments
               </label>
-              <div className="flex gap-2 rounded-xl border border-input bg-card p-1.5 shadow-xs focus-within:border-primary transition-colors">
-                <div className="flex min-w-0 flex-1 items-center gap-2 px-2">
-                  <Search className="h-5 w-5 text-muted-foreground" aria-hidden />
+              <div className="home-hero-search flex gap-2 rounded-xl p-1.5">
+                <div className="flex min-w-0 flex-1 items-center gap-2.5 px-3">
+                  <Search className="h-5 w-5 text-muted-foreground shrink-0" aria-hidden />
                   <input
                     id="hero-search"
                     value={q}
                     onChange={(e) => setQ(e.target.value)}
-                    placeholder="Which treatment are you considering?"
-                    className="h-10 sm:h-11 w-full bg-transparent text-foreground outline-none placeholder:text-muted-foreground text-sm sm:text-base"
+                    placeholder="Search medical treatments or procedures..."
+                    className="h-10 sm:h-11 w-full bg-transparent text-foreground outline-none placeholder:text-muted-foreground text-sm sm:text-base font-normal"
                     autoComplete="off"
                   />
                 </div>
                 <Button
                   type="submit"
                   size="icon"
-                  className="h-10 w-10 sm:h-11 sm:w-11 shrink-0 rounded-lg"
+                  className="h-10 w-10 sm:h-11 sm:w-11 shrink-0 rounded-lg shadow-sm"
                   aria-label="Search treatments"
                 >
                   <ArrowRight className="h-5 w-5" />
