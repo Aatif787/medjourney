@@ -2,8 +2,10 @@ import { useEffect } from "react";
 
 /**
  * HyperMotion Engine
- * 1. Re-triggerable 3D scroll observer: triggers animations every time elements enter & leave view.
+ * 1. Re-triggerable 3D scroll observer for section headers, grids, and cards.
  * 2. 3D Spatial Tilt & Holographic Cursor Spotlight tracking for cards.
+ * 3. Scroll-Scrubbed 3D Double-Door Engine: dynamically moves with the scroll position
+ *    (scrolling down closes the doors together, scrolling upward pushes them back out of screen).
  */
 export function initScrollMotion(): () => void {
   if (typeof window === "undefined") {
@@ -43,9 +45,72 @@ export function initScrollMotion(): () => void {
   // Initial scan
   scanAndObserve();
 
+  // 2. Scroll-Linked Scrubbed 3D Double-Door Controller
+  // Directly tied to user scroll: scrolling down brings doors in from off-screen,
+  // and scrolling upward returns them back out of screen in real-time.
+  let scrollDoorRaf: number | null = null;
+
+  function updateScrollDoors() {
+    scrollDoorRaf = null;
+    const containers = document.querySelectorAll<HTMLElement>(
+      ".door-container, [data-scroll-doors]"
+    );
+    if (!containers.length) return;
+
+    const windowHeight = window.innerHeight;
+    const isMobile = window.innerWidth < 1024;
+
+    containers.forEach((container) => {
+      const rect = container.getBoundingClientRect();
+      const leftDoor = container.querySelector<HTMLElement>(".door-left");
+      const rightDoor = container.querySelector<HTMLElement>(".door-right");
+      if (!leftDoor || !rightDoor) return;
+
+      // Start closing when section top reaches 96% of the screen height (entering bottom)
+      // Fully closed when section top reaches 20% of screen height (centered view)
+      const startY = windowHeight * 0.96;
+      const endY = windowHeight * 0.20;
+
+      const rawProgress = (startY - rect.top) / (startY - endY);
+      const progress = Math.min(Math.max(rawProgress, 0), 1);
+
+      // Smooth organic sine easing curve
+      const eased = Math.sin((progress * Math.PI) / 2);
+      const openFactor = 1 - eased;
+
+      const xOffsetVw = openFactor * 100; // in vw (starts completely outside viewport)
+      const rotateAngle = openFactor * (isMobile ? 26 : 52); // in deg
+      const zOffset = openFactor * (isMobile ? -60 : -140); // in px
+      const scale = 0.88 + eased * 0.12;
+      const opacity = Math.min(eased * 1.5, 1);
+      const blur = openFactor * 12;
+
+      leftDoor.style.transform = `perspective(2000px) rotateY(${-rotateAngle}deg) translate3d(${-xOffsetVw}vw, 0, ${zOffset}px) scale(${scale})`;
+      leftDoor.style.opacity = `${opacity}`;
+      leftDoor.style.filter = blur > 0.4 ? `blur(${blur.toFixed(1)}px)` : "none";
+
+      rightDoor.style.transform = `perspective(2000px) rotateY(${rotateAngle}deg) translate3d(${xOffsetVw}vw, 0, ${zOffset}px) scale(${scale})`;
+      rightDoor.style.opacity = `${opacity}`;
+      rightDoor.style.filter = blur > 0.4 ? `blur(${blur.toFixed(1)}px)` : "none";
+    });
+  }
+
+  const handleScroll = () => {
+    if (!scrollDoorRaf) {
+      scrollDoorRaf = requestAnimationFrame(updateScrollDoors);
+    }
+  };
+
+  window.addEventListener("scroll", handleScroll, { passive: true });
+  window.addEventListener("resize", handleScroll, { passive: true });
+
+  // Initial calculation
+  updateScrollDoors();
+
   // Re-scan when DOM changes (e.g. route transitions, dynamic data)
   const mutationObserver = new MutationObserver(() => {
     scanAndObserve();
+    updateScrollDoors();
   });
 
   mutationObserver.observe(document.body, {
@@ -53,7 +118,7 @@ export function initScrollMotion(): () => void {
     subtree: true,
   });
 
-  // 2. Interactive 3D Card Tilt & Holographic Spotlight Tracker
+  // 3. Interactive 3D Card Tilt & Holographic Spotlight Tracker
   let activeCard: HTMLElement | null = null;
   let rafId: number | null = null;
   let targetTiltX = 0;
@@ -113,8 +178,11 @@ export function initScrollMotion(): () => void {
   return () => {
     observer?.disconnect();
     mutationObserver.disconnect();
+    window.removeEventListener("scroll", handleScroll);
+    window.removeEventListener("resize", handleScroll);
     document.removeEventListener("pointermove", handlePointerMove);
     document.removeEventListener("pointerleave", handlePointerLeave);
+    if (scrollDoorRaf) cancelAnimationFrame(scrollDoorRaf);
     if (rafId) cancelAnimationFrame(rafId);
   };
 }

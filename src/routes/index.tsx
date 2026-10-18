@@ -328,9 +328,9 @@ function Home() {
         <div className="aurora-orb -top-20 -right-20 h-80 w-80 bg-primary/15" aria-hidden />
         <div
           className="container-page relative z-10 grid gap-10 lg:grid-cols-[1fr_1.4fr] lg:items-start door-container"
-          data-reveal="door-container"
+          data-scroll-doors
         >
-          <div className="door-panel door-left" data-reveal="door-left">
+          <div className="door-panel door-left">
             <span className="eyebrow-pill">
               <span className="pulse-dot" /> Adaptive Triage
             </span>
@@ -356,7 +356,7 @@ function Home() {
               ))}
             </ul>
           </div>
-          <div className="door-panel door-right" data-reveal="door-right">
+          <div className="door-panel door-right">
             <PatientIntakeForm treatments={treatments.map((t) => ({ id: t.id, name: t.name }))} />
           </div>
         </div>
