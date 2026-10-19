@@ -387,7 +387,7 @@ export function PatientIntakeForm({
       <form onSubmit={handleSubmit} className="p-6 md:p-8 space-y-6">
         {/* ================= STEP 1: Specialty Selection ================= */}
         {step === 1 && (
-          <div className="space-y-5 animate-in fade-in duration-300">
+          <div className="space-y-5 animate-in fade-in duration-300 mobile-step-transition">
             <div>
               <h4 className="text-base font-semibold text-foreground">
                 Which medical specialty or treatment do you need?
@@ -406,7 +406,7 @@ export function PatientIntakeForm({
                     type="button"
                     key={item.id}
                     onClick={() => setSpecialty(item.id)}
-                    className={`flex items-start gap-3.5 rounded-xl border p-3.5 text-left transition-all ${
+                    className={`flex items-start gap-3.5 rounded-xl border p-3.5 text-left transition-all active:scale-[0.98] ${
                       isSelected
                         ? "border-primary bg-primary/5 ring-1 ring-primary shadow-sm"
                         : "border-border bg-card hover:border-primary/50 hover:bg-muted/30"
@@ -450,7 +450,7 @@ export function PatientIntakeForm({
 
         {/* ================= STEP 2: Condition-Specific Assessment ================= */}
         {step === 2 && (
-          <div className="space-y-5 animate-in fade-in duration-300">
+          <div className="space-y-5 animate-in fade-in duration-300 mobile-step-transition">
             <div>
               <h4 className="text-base font-semibold text-foreground">
                 Clinical Details: {SPECIALTIES.find((s) => s.id === specialty)?.label}
@@ -710,7 +710,7 @@ export function PatientIntakeForm({
 
         {/* ================= STEP 3: Timeline & Logistics ================= */}
         {step === 3 && (
-          <div className="space-y-5 animate-in fade-in duration-300">
+          <div className="space-y-5 animate-in fade-in duration-300 mobile-step-transition">
             <div>
               <h4 className="text-base font-semibold text-foreground">Timeline & Travel Plans</h4>
               <p className="text-xs text-muted-foreground mt-1">
@@ -786,7 +786,7 @@ export function PatientIntakeForm({
 
         {/* ================= STEP 4: Contact & Verification ================= */}
         {step === 4 && (
-          <div className="space-y-5 animate-in fade-in duration-300">
+          <div className="space-y-5 animate-in fade-in duration-300 mobile-step-transition">
             <div>
               <h4 className="text-base font-semibold text-foreground">
                 Coordinator Contact & Delivery
@@ -947,7 +947,13 @@ export function PatientIntakeForm({
         {/* Buttons / Actions */}
         <div className="flex items-center justify-between border-t pt-5">
           {step > 1 ? (
-            <Button type="button" variant="outline" size="sm" onClick={handleBack}>
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={handleBack}
+              className="transition-transform duration-150 active:scale-[0.97]"
+            >
               <ArrowLeft className="mr-1.5 h-4 w-4" /> Back
             </Button>
           ) : (
@@ -958,11 +964,21 @@ export function PatientIntakeForm({
           )}
 
           {step < 4 ? (
-            <Button type="button" size="sm" onClick={handleNext}>
+            <Button
+              type="button"
+              size="sm"
+              onClick={handleNext}
+              className="transition-transform duration-150 active:scale-[0.97]"
+            >
               Continue <ArrowRight className="ml-1.5 h-4 w-4" />
             </Button>
           ) : (
-            <Button type="submit" size="sm" disabled={status === "submitting"}>
+            <Button
+              type="submit"
+              size="sm"
+              disabled={status === "submitting"}
+              className="transition-transform duration-150 active:scale-[0.97]"
+            >
               {status === "submitting" ? (
                 <>
                   <Loader2 className="mr-1.5 h-4 w-4 animate-spin" />

@@ -29,10 +29,11 @@ export function initScrollMotion(): () => void {
       }
     };
 
+    const isMobile = window.innerWidth < 1024;
     observer = new IntersectionObserver(observerCallback, {
       root: null,
-      rootMargin: "0px 0px -50px 0px",
-      threshold: [0, 0.1],
+      rootMargin: isMobile ? "0px 0px -15px 0px" : "0px 0px -50px 0px",
+      threshold: isMobile ? [0, 0.05] : [0, 0.1],
     });
   }
 
@@ -79,20 +80,37 @@ export function initScrollMotion(): () => void {
       const eased = Math.sin((progress * Math.PI) / 2);
       const openFactor = 1 - eased;
 
-      const xOffsetVw = openFactor * 100; // in vw (starts completely outside viewport)
-      const rotateAngle = openFactor * (isMobile ? 26 : 52); // in deg
-      const zOffset = openFactor * (isMobile ? -60 : -140); // in px
-      const scale = 0.88 + eased * 0.12;
-      const opacity = Math.min(eased * 1.5, 1);
-      const blur = openFactor * 12;
+      if (isMobile) {
+        // Apple-style mobile optimization:
+        // No heavy CSS blur to prevent scroll stutter, clean hardware-accelerated transforms
+        const xOffsetMobile = openFactor * 20;
+        const scale = 0.97 + eased * 0.03;
+        const opacity = Math.min(eased * 1.35, 1);
 
-      leftDoor.style.transform = `perspective(2000px) rotateY(${-rotateAngle}deg) translate3d(${-xOffsetVw}vw, 0, ${zOffset}px) scale(${scale})`;
-      leftDoor.style.opacity = `${opacity}`;
-      leftDoor.style.filter = blur > 0.4 ? `blur(${blur.toFixed(1)}px)` : "none";
+        leftDoor.style.transform = `translate3d(${-xOffsetMobile.toFixed(1)}px, 0, 0) scale(${scale.toFixed(3)})`;
+        leftDoor.style.opacity = `${opacity.toFixed(2)}`;
+        leftDoor.style.filter = "none";
 
-      rightDoor.style.transform = `perspective(2000px) rotateY(${rotateAngle}deg) translate3d(${xOffsetVw}vw, 0, ${zOffset}px) scale(${scale})`;
-      rightDoor.style.opacity = `${opacity}`;
-      rightDoor.style.filter = blur > 0.4 ? `blur(${blur.toFixed(1)}px)` : "none";
+        rightDoor.style.transform = `translate3d(${xOffsetMobile.toFixed(1)}px, 0, 0) scale(${scale.toFixed(3)})`;
+        rightDoor.style.opacity = `${opacity.toFixed(2)}`;
+        rightDoor.style.filter = "none";
+      } else {
+        // Desktop remains 100% untouched
+        const xOffsetVw = openFactor * 100; // in vw (starts completely outside viewport)
+        const rotateAngle = openFactor * 52; // in deg
+        const zOffset = openFactor * -140; // in px
+        const scale = 0.88 + eased * 0.12;
+        const opacity = Math.min(eased * 1.5, 1);
+        const blur = openFactor * 12;
+
+        leftDoor.style.transform = `perspective(2000px) rotateY(${-rotateAngle}deg) translate3d(${-xOffsetVw}vw, 0, ${zOffset}px) scale(${scale})`;
+        leftDoor.style.opacity = `${opacity}`;
+        leftDoor.style.filter = blur > 0.4 ? `blur(${blur.toFixed(1)}px)` : "none";
+
+        rightDoor.style.transform = `perspective(2000px) rotateY(${rotateAngle}deg) translate3d(${xOffsetVw}vw, 0, ${zOffset}px) scale(${scale})`;
+        rightDoor.style.opacity = `${opacity}`;
+        rightDoor.style.filter = blur > 0.4 ? `blur(${blur.toFixed(1)}px)` : "none";
+      }
     });
   }
 
@@ -135,17 +153,30 @@ export function initScrollMotion(): () => void {
     const eased = Math.sin((progress * Math.PI) / 2);
     const openFactor = 1 - eased;
 
-    const xOffsetVw = openFactor * (isMobile ? 100 : 85);
-    const rotateAngle = openFactor * (isMobile ? 28 : 50);
-    const zOffset = openFactor * -140;
-    const scale = 0.88 + eased * 0.12;
-    const opacity = Math.min(eased * 1.3, 1);
-    const blur = openFactor * 12;
+    if (isMobile) {
+      // Apple-style mobile optimization: zero dynamic blur, smooth vertical translation
+      const yOffset = openFactor * -24;
+      const scale = 0.97 + eased * 0.03;
+      const opacity = Math.min(eased * 1.3, 1);
 
-    heroPanel.style.transform = `perspective(2000px) rotateY(${-rotateAngle}deg) translate3d(${-xOffsetVw}vw, 0, ${zOffset}px) scale(${scale})`;
-    heroPanel.style.opacity = `${opacity}`;
-    heroPanel.style.filter = blur > 0.4 ? `blur(${blur.toFixed(1)}px)` : "none";
-    heroPanel.style.pointerEvents = openFactor > 0.75 ? "none" : "auto";
+      heroPanel.style.transform = `translate3d(0, ${yOffset.toFixed(1)}px, 0) scale(${scale.toFixed(3)})`;
+      heroPanel.style.opacity = `${opacity.toFixed(2)}`;
+      heroPanel.style.filter = "none";
+      heroPanel.style.pointerEvents = openFactor > 0.75 ? "none" : "auto";
+    } else {
+      // Desktop remains 100% untouched
+      const xOffsetVw = openFactor * 85;
+      const rotateAngle = openFactor * 50;
+      const zOffset = openFactor * -140;
+      const scale = 0.88 + eased * 0.12;
+      const opacity = Math.min(eased * 1.3, 1);
+      const blur = openFactor * 12;
+
+      heroPanel.style.transform = `perspective(2000px) rotateY(${-rotateAngle}deg) translate3d(${-xOffsetVw}vw, 0, ${zOffset}px) scale(${scale})`;
+      heroPanel.style.opacity = `${opacity}`;
+      heroPanel.style.filter = blur > 0.4 ? `blur(${blur.toFixed(1)}px)` : "none";
+      heroPanel.style.pointerEvents = openFactor > 0.75 ? "none" : "auto";
+    }
   }
 
   const handleScroll = () => {
@@ -197,7 +228,7 @@ export function initScrollMotion(): () => void {
   }
 
   const handlePointerMove = (e: PointerEvent) => {
-    if (e.pointerType === "touch") return; // Keep mobile smooth without tilt distortion
+    if (e.pointerType === "touch" || window.innerWidth < 1024) return; // Keep mobile & touch smooth without tilt overhead
     const card = (e.target as HTMLElement)?.closest<HTMLElement>(".motion-card, .hyper-card");
     if (!card) {
       if (activeCard) {

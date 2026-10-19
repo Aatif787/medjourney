@@ -252,14 +252,16 @@
   [data-reveal="door-left"],
   [data-reveal="door-close-left"] {
     transform-origin: center center;
-    transform: perspective(1200px) rotateY(-25deg) translate3d(-100vw, 0, 0) scale(0.9);
+    transform: translate3d(-20px, 0, 0) scale(0.97);
+    filter: none !important;
   }
   .door-right,
   [data-reveal="slide-right"],
   [data-reveal="door-right"],
   [data-reveal="door-close-right"] {
     transform-origin: center center;
-    transform: perspective(1200px) rotateY(25deg) translate3d(100vw, 0, 0) scale(0.9);
+    transform: translate3d(20px, 0, 0) scale(0.97);
+    filter: none !important;
   }
 }
 
@@ -485,6 +487,275 @@
   pointer-events: none;
   animation: auroraFloat 10s ease-in-out infinite alternate;
   will-change: transform, opacity;
+}
+
+/* ========================================================
+ * Apple-Grade Mobile Animation Engine (Mobile Viewport Only)
+ * Desktop remains 100% untouched.
+ * Optimizations:
+ * 1. 120Hz ProMotion silky smoothness: eliminates heavy CSS blur
+ *    filters during scroll to prevent GPU compositing thrash & frame drops.
+ * 2. iOS Physics Curves: cubic-bezier(0.16, 1, 0.3, 1) and
+ *    cubic-bezier(0.32, 0.72, 0, 1) spring deceleration.
+ * 3. Responsive Snappy Durations: 280ms-380ms (human touch response)
+ *    instead of 950ms desktop drag.
+ * 4. Micro-Stagger Delays: 20ms-30ms fast cascades so scrolling thumb
+ *    never sees lagging blank cards.
+ * 5. Touch Haptics / Active States: scale(0.98) instant press feedback
+ *    while removing sticky hover artifacts on touchscreens.
+ * 6. Smooth Hardware Acceleration: translate3d with backface-visibility: hidden.
+ * ======================================================== */
+
+@media (max-width: 768px) {
+  /* Snappy mobile page transition */
+  @keyframes appleMobileRouteFade {
+    0% {
+      opacity: 0.94;
+      transform: translate3d(0, 6px, 0);
+    }
+    100% {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+  }
+
+  #main {
+    animation: appleMobileRouteFade 280ms cubic-bezier(0.16, 1, 0.3, 1);
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Optimized reveal: Zero GPU blur thrash, clean 2D/shallow 3D hardware transforms */
+  [data-reveal],
+  .reveal-on-scroll {
+    will-change: transform, opacity;
+    filter: none !important;
+    transition:
+      opacity 360ms cubic-bezier(0.16, 1, 0.3, 1),
+      transform 380ms cubic-bezier(0.16, 1, 0.3, 1) !important;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    transform-style: flat;
+  }
+
+  [data-reveal="fade-up"],
+  [data-reveal=""] {
+    opacity: 0;
+    transform: translate3d(0, 18px, 0) scale(0.985);
+    filter: none !important;
+  }
+
+  [data-reveal="fade-up"].in-view,
+  [data-reveal=""].in-view {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+    filter: none !important;
+  }
+
+  [data-reveal="scale"] {
+    opacity: 0;
+    transform: translate3d(0, 14px, 0) scale(0.96);
+    filter: none !important;
+  }
+
+  [data-reveal="scale"].in-view {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+    filter: none !important;
+  }
+
+  /* Stagger: Fast, responsive cascade for thumb-scrolling on mobile */
+  [data-stagger] {
+    perspective: none !important;
+  }
+
+  [data-stagger] > * {
+    opacity: 0;
+    transform: translate3d(0, 18px, 0) scale(0.985);
+    filter: none !important;
+    transition:
+      opacity 340ms cubic-bezier(0.16, 1, 0.3, 1),
+      transform 360ms cubic-bezier(0.16, 1, 0.3, 1) !important;
+    will-change: transform, opacity;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+  }
+
+  [data-stagger].in-view > * {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+    filter: none !important;
+  }
+
+  /* Tight, snappy stagger intervals so mobile content appears immediately */
+  [data-stagger] > *:nth-child(1) { transition-delay: 20ms !important; }
+  [data-stagger] > *:nth-child(2) { transition-delay: 50ms !important; }
+  [data-stagger] > *:nth-child(3) { transition-delay: 80ms !important; }
+  [data-stagger] > *:nth-child(4) { transition-delay: 110ms !important; }
+  [data-stagger] > *:nth-child(5) { transition-delay: 140ms !important; }
+  [data-stagger] > *:nth-child(6) { transition-delay: 170ms !important; }
+  [data-stagger] > *:nth-child(7) { transition-delay: 200ms !important; }
+  [data-stagger] > *:nth-child(8) { transition-delay: 230ms !important; }
+
+  /* Motion cards on mobile: remove sticky hover artifacts & add iOS spring tap feedback */
+  .motion-card {
+    transform: translate3d(0, 0, 0) !important;
+    transition: transform 140ms cubic-bezier(0.2, 0, 0, 1), box-shadow 140ms ease !important;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .motion-card::before,
+  .motion-card::after {
+    display: none !important; /* Disable mouse spotlight on touchscreens */
+  }
+
+  .motion-card:hover {
+    transform: translate3d(0, 0, 0) !important;
+    box-shadow: none !important;
+  }
+
+  .motion-card:active {
+    transform: scale(0.982) translateZ(0) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
+  }
+
+  .motion-card .motion-card-image img {
+    transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1) !important;
+  }
+
+  .motion-card:hover .motion-card-image img {
+    transform: none !important; /* Prevent sticky image zooms when scrolling past */
+  }
+
+  /* Hyper button: Apple-style fluid tap press */
+  .hyper-button {
+    transition: transform 140ms cubic-bezier(0.2, 0, 0, 1), box-shadow 140ms ease !important;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .hyper-button:hover {
+    transform: none !important;
+    box-shadow: none !important;
+  }
+
+  .hyper-button:active {
+    transform: scale(0.975) translateZ(0) !important;
+  }
+
+  /* Aurora orbs: lightweight blur and slower animation to save GPU/battery */
+  .aurora-orb {
+    filter: blur(36px) !important;
+    opacity: 0.22 !important;
+    animation-duration: 16s !important;
+    transform: translateZ(0);
+  }
+
+  /* Hero Panel entrance on mobile */
+  @keyframes heroMobileEntrance {
+    0% {
+      opacity: 0;
+      transform: translate3d(0, 18px, 0) scale(0.98);
+      filter: none;
+    }
+    100% {
+      opacity: 1;
+      transform: translate3d(0, 0, 0) scale(1);
+      filter: none;
+    }
+  }
+
+  .home-hero-panel {
+    animation: heroMobileEntrance 420ms cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+    backdrop-filter: blur(16px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(16px) saturate(180%) !important;
+  }
+
+  /* Mobile Double-Doors: tight, non-overflowing containment */
+  .door-left,
+  .door-right {
+    transform-origin: center center !important;
+    filter: none !important;
+  }
+
+  /* Apple-style mobile navigation transitions */
+  .mobile-nav-panel {
+    animation: appleNavSlideDown 300ms cubic-bezier(0.32, 0.72, 0, 1) forwards;
+    transform-origin: top center;
+  }
+
+  @keyframes appleNavSlideDown {
+    0% {
+      opacity: 0;
+      transform: translate3d(0, -8px, 0) scaleY(0.98);
+    }
+    100% {
+      opacity: 1;
+      transform: translate3d(0, 0, 0) scaleY(1);
+    }
+  }
+
+  .mobile-nav-item {
+    opacity: 0;
+    animation: appleNavItemFade 240ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  @keyframes appleNavItemFade {
+    0% {
+      opacity: 0;
+      transform: translate3d(-6px, 0, 0);
+    }
+    100% {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+  }
+
+  .mobile-nav-item:nth-child(1) { animation-delay: 25ms; }
+  .mobile-nav-item:nth-child(2) { animation-delay: 55ms; }
+  .mobile-nav-item:nth-child(3) { animation-delay: 85ms; }
+  .mobile-nav-item:nth-child(4) { animation-delay: 115ms; }
+  .mobile-nav-item:nth-child(5) { animation-delay: 145ms; }
+  .mobile-nav-item:nth-child(6) { animation-delay: 175ms; }
+
+  /* Mobile Form Step Transition: Apple smooth slide */
+  .mobile-step-transition {
+    animation: appleStepSlide 260ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  @keyframes appleStepSlide {
+    0% {
+      opacity: 0;
+      transform: translate3d(10px, 0, 0);
+    }
+    100% {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+  }
+
+  /* Clean touch responsiveness & tap highlight resets */
+  a,
+  button,
+  input,
+  select,
+  textarea {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Smooth momentum touch scrolling & iOS spring timing on modals */
+  html,
+  body {
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+  }
+
+  /* Apple sheet & dialog spring physics for mobile overlays */
+  [data-state="open"] {
+    animation-timing-function: cubic-bezier(0.32, 0.72, 0, 1) !important;
+  }
+  [data-state="closed"] {
+    animation-timing-function: cubic-bezier(0.32, 0.72, 0, 1) !important;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

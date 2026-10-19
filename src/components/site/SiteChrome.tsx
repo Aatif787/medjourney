@@ -65,33 +65,43 @@ export function SiteHeader({ settings }: { settings?: SiteSettings | null }) {
           type="button"
           variant="ghost"
           size="icon"
-          className="md:hidden"
+          className="md:hidden transition-transform duration-150 active:scale-90"
           aria-label={open ? "Close menu" : "Open menu"}
           aria-expanded={open}
           aria-controls="mobile-nav"
           onClick={() => setOpen((v) => !v)}
         >
-          {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          {open ? (
+            <X className="h-6 w-6 transition-transform duration-200" />
+          ) : (
+            <Menu className="h-6 w-6 transition-transform duration-200" />
+          )}
         </Button>
       </div>
       {open && (
-        <nav id="mobile-nav" aria-label="Mobile" className="border-t bg-background md:hidden">
-          <div className="container-page flex flex-col py-3">
+        <nav
+          id="mobile-nav"
+          aria-label="Mobile"
+          className="border-t bg-background/95 backdrop-blur-md md:hidden mobile-nav-panel shadow-lg overflow-hidden"
+        >
+          <div className="container-page flex flex-col py-3 space-y-1">
             {NAV.map((n) => (
               <Link
                 key={n.to}
                 to={n.to}
                 onClick={() => setOpen(false)}
-                className="rounded-md px-2 py-3 text-base font-medium"
+                className="mobile-nav-item rounded-lg px-3 py-2.5 text-base font-medium transition-all active:scale-[0.98] active:bg-muted/70 hover:bg-muted/50"
               >
                 {n.label}
               </Link>
             ))}
-            <Button asChild className="mt-2">
-              <Link to="/contact" onClick={() => setOpen(false)}>
-                Request an estimate
-              </Link>
-            </Button>
+            <div className="mobile-nav-item pt-2">
+              <Button asChild className="w-full transition-transform duration-150 active:scale-[0.97]">
+                <Link to="/contact" onClick={() => setOpen(false)}>
+                  Request an estimate
+                </Link>
+              </Button>
+            </div>
           </div>
         </nav>
       )}
